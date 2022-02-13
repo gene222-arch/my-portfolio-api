@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Project;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,8 @@ class ProjectSubImageFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'project_id' => Project::factory()->create()->id,
+            'image_url' => $this->faker->unique()->image()
         ];
     }
 }
