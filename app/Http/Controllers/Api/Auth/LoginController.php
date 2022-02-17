@@ -32,7 +32,7 @@ class LoginController extends Controller
 
     public function logout()
     {
-        $isTokenRevoked = auth()
+        $isTokenRevoked = request()
             ->user('api')
             ->token()
             ->revoke();
