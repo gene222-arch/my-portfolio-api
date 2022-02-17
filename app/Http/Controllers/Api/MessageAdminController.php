@@ -12,17 +12,17 @@ class MessageAdminController extends Controller
 {
     public function mail(MessageAdminRequest $request)
     {
-        Mail::to(env('MAIL_FROM_ADDRESS'))
-            ->send(
-                new MessageAdmin(
-                    $request->email,
-                    $request->message,
-                    $request->name
-                )
-            );
-
-        if ($errors = Mail::failures()) {
-            return $this->error($errors);
+        try {
+            Mail::to(env('MAIL_FROM_ADDRESS'))
+                ->send(
+                    new MessageAdmin(
+                        $request->email,
+                        $request->message,
+                        $request->name
+                    )
+                );
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage());
         }
 
         return $this->success('Mail sent successfully.');
