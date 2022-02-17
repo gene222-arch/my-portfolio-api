@@ -25,14 +25,18 @@ Route::prefix('auth')->group(function ()
     });
 });
 
-Route::prefix('projects')->group(function()
+Route::middleware(['auth:api'])->group(function ()
 {
-    Route::controller(ProjectsController::class)->group(function ()
+    Route::prefix('projects')->group(function()
     {
-        Route::get('/', 'index');
-        Route::get('/{project}', 'show');
-        Route::post('/', 'store');
-        Route::put('/{project}', 'update');
+        Route::controller(ProjectsController::class)->group(function ()
+        {
+            Route::get('/', 'index');
+            Route::get('/{project}', 'show');
+            Route::post('/', 'store');
+            Route::put('/{project}', 'update');
+            Route::delete('/', 'destroy');
+        });
     });
 });
 

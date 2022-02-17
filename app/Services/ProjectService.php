@@ -26,9 +26,9 @@ class ProjectService
                     'client_feedback' => $clientFeedback
                 ]);
 
-                $proj->subImages()->createMany($subImageUrls);
+                $proj->images()->createMany($subImageUrls);
 
-                return $proj;
+                return Project::with('images')->find($proj->id);
             });
         } catch (\Throwable $th) {
             return $th->getMessage();
@@ -44,7 +44,7 @@ class ProjectService
         string $description,
         ?string $clientFeedback = null,
         array $subImageUrls
-    ): Project|string
+    ): bool|string
     {
         try {
             DB::transaction(function () use ($project, $imageUrl, $title, $description, $clientFeedback, $subImageUrls)
@@ -58,8 +58,8 @@ class ProjectService
                     'client_feedback' => $clientFeedback
                 ]);
 
-                $project->subImages()->delete();
-                $project->subImages()->createMany($subImageUrls);
+                $project->images()->delete();
+                $project->images()->createMany($subImageUrls);
             });
         } catch (\Throwable $th) {
             return $th->getMessage();
@@ -75,8 +75,14 @@ class ProjectService
             {
                 $projects = Project::whereIn('id', $projectIDs)->get();
 
-                $projects->map->subImages()->delete();
-                $projects->delete();
+                $projects
+                    ->map
+                    ->images
+                    ->collapse()
+                    ->map
+                    ->delete();
+                    
+                $projects->map->delete();
             });
         } catch (\Throwable $th) {
             return $th->getMessage();

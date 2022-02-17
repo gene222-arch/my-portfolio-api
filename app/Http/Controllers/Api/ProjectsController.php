@@ -20,7 +20,7 @@ class ProjectsController extends Controller
      */
     public function index()
     {
-        $projects = Project::with('subImages')->get();
+        $projects = Project::with('images')->get();
 
         return $this->success('OK', $projects);
     }
@@ -54,12 +54,12 @@ class ProjectsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Project  $project
+     * @param  int  $projectID
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Project $project)
+    public function show(int $projectID)
     {
-        return $this->success('OK', Project::with('subImages')->find($project->id));
+        return $this->success('OK', Project::with('images')->find($projectID));
     }
 
     /**
