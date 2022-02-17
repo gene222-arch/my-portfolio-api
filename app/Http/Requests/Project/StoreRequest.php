@@ -15,6 +15,7 @@ class StoreRequest extends BaseRequest
     {
         return [
             'image_url' => ['required', 'string'],
+            'website_url' => ['nullable', 'url'],
             'title' => ['required', 'string', 'unique:projects'],
             'description' => ['required', 'string'],
             'client_feedback' => ['nullable', 'string'],

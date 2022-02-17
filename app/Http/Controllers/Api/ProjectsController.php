@@ -36,6 +36,7 @@ class ProjectsController extends Controller
     {
         $result = $service->create(
             $request->image_url,
+            $request->website_url,
             $request->title,
             $request->description,
             $request->client_feedback,
@@ -75,6 +76,7 @@ class ProjectsController extends Controller
         $result = $service->update(
             $project,
             $request->image_url,
+            $request->websiteUrl,
             $request->title,
             $request->description,
             $request->client_feedback,

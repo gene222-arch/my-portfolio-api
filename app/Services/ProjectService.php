@@ -8,6 +8,7 @@ class ProjectService
 {
     public function create(
         string $imageUrl,
+        string $websiteUrl,
         string $title,
         string $description,
         ?string $clientFeedback = null,
@@ -15,12 +16,13 @@ class ProjectService
     ): Project|string
     {
         try {
-            $project = DB::transaction(function () use ($imageUrl, $title, $description, $clientFeedback, $subImageUrls)
+            $project = DB::transaction(function () use ($imageUrl, $websiteUrl, $title, $description, $clientFeedback, $subImageUrls)
             {
                 $subImageUrls = array_map(fn ($subImageUrl) => ['image_url' => $subImageUrl], $subImageUrls);
 
                 $proj = Project::create([
                     'image_url' => $imageUrl,
+                    'website_url' => $websiteUrl,
                     'title' => $title,
                     'description' => $description,
                     'client_feedback' => $clientFeedback
@@ -39,6 +41,7 @@ class ProjectService
 
     public function update(
         Project $project,
+        string $websiteUrl,
         string $imageUrl,
         string $title,
         string $description,
@@ -47,12 +50,13 @@ class ProjectService
     ): bool|string
     {
         try {
-            DB::transaction(function () use ($project, $imageUrl, $title, $description, $clientFeedback, $subImageUrls)
+            DB::transaction(function () use ($project, $imageUrl, $websiteUrl, $title, $description, $clientFeedback, $subImageUrls)
             {
                 $subImageUrls = array_map(fn ($subImageUrl) => ['image_url' => $subImageUrl], $subImageUrls);
 
                 $project->update([
                     'image_url' => $imageUrl,
+                    'website_url', $websiteUrl,
                     'title' => $title,
                     'description' => $description,
                     'client_feedback' => $clientFeedback

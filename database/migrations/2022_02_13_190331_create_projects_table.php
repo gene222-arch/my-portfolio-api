@@ -17,6 +17,7 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('image_url');
+            $table->string('website_url')->nullable();
             $table->string('title')->unique();
             $table->text('description');
             $table->text('client_feedback')->nullable();
@@ -37,6 +38,7 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('project_sub_images');
         Schema::dropIfExists('projects');
     }
 };

@@ -16,6 +16,7 @@ class UpdateRequest  extends BaseRequest
         return [
             'project_id' => ['required', 'integer', 'exists:projects,id'],
             'image_url' => ['required', 'string'],
+            'website_url' => ['nullable', 'url'],
             'title' => ['required', 'string', "unique:projects,id,{$this->project_id}"],
             'description' => ['required', 'string'],
             'client_feedback' => ['nullable', 'string'],
