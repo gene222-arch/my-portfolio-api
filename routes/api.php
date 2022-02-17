@@ -3,7 +3,8 @@
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\ProjectsController;
 use App\Http\Controllers\Api\TestimonialsController;
-use Illuminate\Http\Request;
+use App\Mail\MessageAdmin;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,4 +53,3 @@ Route::middleware(['auth:api'])->group(function ()
         });
     });
 });
-
