@@ -31,6 +31,7 @@ class ProjectsControllerTest extends TestCase
                     'title',
                     'description',
                     'image_url',
+                    'website_url',
                     'client_feedback',
                     'updated_at',
                     'created_at',
@@ -67,6 +68,7 @@ class ProjectsControllerTest extends TestCase
                 'title',
                 'description',
                 'image_url',
+                'website_url',
                 'client_feedback',
                 'updated_at',
                 'created_at',
@@ -91,6 +93,7 @@ class ProjectsControllerTest extends TestCase
     {
         $data = [
             'image_url' => $this->faker()->image(),
+            'website_url' => $this->faker()->url(),
             'title' => $this->faker()->unique()->title() . time(),
             'description' => $this->faker()->sentence(),
             'client_feedback' => $this->faker()->sentence(),
@@ -109,6 +112,7 @@ class ProjectsControllerTest extends TestCase
                 'title',
                 'description',
                 'image_url',
+                'website_url',
                 'client_feedback',
                 'updated_at',
                 'created_at',
@@ -138,6 +142,7 @@ class ProjectsControllerTest extends TestCase
         $data = [
             'project_id' => $project->id,
             'image_url' => $this->faker()->image(),
+            'website_url' => $this->faker()->url(),
             'title' => $this->faker()->unique()->title() . time(),
             'description' => $this->faker()->sentence(),
             'client_feedback' => $this->faker()->sentence(),
