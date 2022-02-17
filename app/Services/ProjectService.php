@@ -56,7 +56,7 @@ class ProjectService
 
                 $project->update([
                     'image_url' => $imageUrl,
-                    'website_url', $websiteUrl,
+                    'website_url' => $websiteUrl,
                     'title' => $title,
                     'description' => $description,
                     'client_feedback' => $clientFeedback
