@@ -20,7 +20,7 @@ class TestimonialFactory extends Factory
             'name' => $this->faker->unique()->name('Male'),
             'body' => $this->faker->sentence(),
             'profession' => $this->faker->unique()->jobTitle(),
-            'rate' => $this->faker->rand(0, 5)
+            'rate' => rand(0, 5)
         ];
     }
 }

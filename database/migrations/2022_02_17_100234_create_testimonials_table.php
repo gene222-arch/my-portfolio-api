@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('body');
             $table->string('profession');
-            $table->unsignedDecimal('rate', 2);
+            $table->unsignedDecimal('rate', 5);
             $table->timestamps();
         });
     }
