@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\ProjectsController;
+use App\Http\Controllers\Api\TestimonialsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +36,18 @@ Route::middleware(['auth:api'])->group(function ()
             Route::get('/{project}', 'show');
             Route::post('/', 'store');
             Route::put('/{project}', 'update');
+            Route::delete('/', 'destroy');
+        });
+    });
+
+    Route::prefix('testimonials')->group(function()
+    {
+        Route::controller(TestimonialsController::class)->group(function ()
+        {
+            Route::get('/', 'index');
+            Route::get('/{testimonial}', 'show');
+            Route::post('/', 'store');
+            Route::put('/{testimonial}', 'update');
             Route::delete('/', 'destroy');
         });
     });
