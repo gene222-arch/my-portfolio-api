@@ -39,7 +39,7 @@ class LoginControllerTest extends TestCase
     }
 
     /**
-     * @test
+     * test
      */
     public function user_can_log_out()
     {
