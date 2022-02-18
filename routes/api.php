@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Auth\AccountController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\MessageAdminController;
 use App\Http\Controllers\Api\ProjectsController;
@@ -28,7 +29,16 @@ Route::prefix('auth')->group(function ()
 
 Route::middleware(['auth:api'])->group(function ()
 {
-    Route::prefix('projects')->group(function()
+    Route::prefix('account')->group(function () 
+    {
+        Route::controller(AccountController::class)->group(function () 
+        {
+            Route::put('/details', 'updateDetails');
+            Route::put('/social-media', 'updateSocialMediaAccount');
+        });
+    });
+
+    Route::prefix('projects')->group(function ()
     {
         Route::controller(ProjectsController::class)->group(function ()
         {
@@ -40,7 +50,7 @@ Route::middleware(['auth:api'])->group(function ()
         });
     });
 
-    Route::prefix('testimonials')->group(function()
+    Route::prefix('testimonials')->group(function ()
     {
         Route::controller(TestimonialsController::class)->group(function ()
         {
