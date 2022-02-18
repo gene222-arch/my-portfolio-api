@@ -14,7 +14,7 @@ class UpdateAccountDetailsRequest extends BaseRequest
     public function rules()
     {
         return [
-            'phone_number' => ['required', 'alpha_num'],
+            'phone_number' => ['required', 'string'],
             'address' => ['required', 'string']
         ];
     }

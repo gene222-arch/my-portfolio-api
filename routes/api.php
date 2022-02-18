@@ -33,8 +33,8 @@ Route::middleware(['auth:api'])->group(function ()
     {
         Route::controller(AccountController::class)->group(function () 
         {
-            Route::put('/details', 'updateDetails');
-            Route::put('/social-media', 'updateSocialMediaAccount');
+            Route::put('/details/{user}', 'updateDetails');
+            Route::put('/social-media/{user}', 'updateSocialMediaAccount');
         });
     });
 

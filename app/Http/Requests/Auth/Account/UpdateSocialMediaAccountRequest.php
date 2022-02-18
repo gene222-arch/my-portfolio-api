@@ -14,7 +14,7 @@ class UpdateSocialMediaAccountRequest extends BaseRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'in:Facebook,Google,Twitter,Instagram,LinkedIn'],
+            'name' => ['required', 'string', 'in:Facebook,Gmail,Twitter,Instagram,LinkedIn'],
             'email' => ['required', 'email', 'unique:user_social_media_accounts'],
             'url' => ['required', 'url']
         ];

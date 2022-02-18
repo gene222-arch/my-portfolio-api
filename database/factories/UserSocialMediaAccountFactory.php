@@ -26,7 +26,7 @@ class UserSocialMediaAccountFactory extends Factory
 
         return [
             'name' => $socialMediaWebsites[rand(0, 4)],
-            'email' => $this->faker->unique()->email(),
+            'email' => $this->faker->unique()->safeEmail(),
             'url' => $this->faker->url()
         ];
     }
