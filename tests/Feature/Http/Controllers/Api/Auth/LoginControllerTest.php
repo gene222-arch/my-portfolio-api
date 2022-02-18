@@ -3,9 +3,8 @@
 namespace Tests\Feature\Http\Controllers\Api\Auth;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Laravel\Passport\Passport;
+use App\Models\UserDetail;
+use App\Models\UserSocialMediaAccount;
 use Tests\TestCase;
 
 class LoginControllerTest extends TestCase
@@ -15,7 +14,10 @@ class LoginControllerTest extends TestCase
      */
     public function user_can_login()
     {
-        $user = User::factory()->create();
+        $user = User::factory()
+            ->has(UserDetail::factory(), 'details')
+            ->has(UserSocialMediaAccount::factory()->count(3), 'socialMediaAccounts')
+            ->create();
 
         $data = [
             'email' => $user->email,
@@ -43,7 +45,10 @@ class LoginControllerTest extends TestCase
      */
     public function user_can_log_out()
     {
-        $user = User::factory()->create();
+        $user = User::factory()
+            ->has(UserDetail::factory(), 'details')
+            ->has(UserSocialMediaAccount::factory()->count(3), 'socialMediaAccounts')
+            ->create();
         $user = User::find($user->id);
 
         $data = [
