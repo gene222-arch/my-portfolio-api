@@ -15,4 +15,9 @@ class UserDetail extends Model
     ];
 
     public $timestamps = false;
+
+    protected $hidden = [
+        'id',
+        'user_id'
+    ];
 }

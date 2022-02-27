@@ -17,4 +17,11 @@ class UserAddress extends Model
         'zip_code',
         'country'
     ];
+
+    protected $hidden = [
+        'id',
+        'user_id',
+        'created_at',
+        'updated_at'
+    ];
 }

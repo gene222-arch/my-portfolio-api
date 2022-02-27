@@ -16,6 +16,52 @@ class AccountControllerTest extends TestCase
     /**
      * test
      */
+    public function user_can_view_account_data()
+    {
+        $user = User::factory()
+            ->has(UserAddress::factory(), 'address')
+            ->has(UserDetail::factory(), 'details')
+            ->has(UserSocialMediaAccount::factory()->count(3), 'socialMediaAccounts')
+            ->create();
+
+        $this->actingAs(User::find($user->id), 'api');
+
+        $response = $this->get("/api/account/{$user->id}");
+
+        $response->assertSuccessful();
+        $response->assertJsonStructure([
+            'data' => [
+                'id',
+                'name',
+                'address' => [
+                    'address',
+                    'city',
+                    'state',
+                    'zip_code',
+                    'country'
+                ],
+                'details' => [
+                    'phone_number'
+                ],
+                'social_media_accounts' => [
+                    [
+                        'id',
+                        'user_id',
+                        'name',
+                        'email',
+                        'url'
+                    ]
+                ]
+            ],
+            'message',
+            'status',
+            'status_message'
+        ]);
+    }
+
+    /**
+     * test
+     */
     public function user_can_update_account_details()
     {
         $user = User::factory()
