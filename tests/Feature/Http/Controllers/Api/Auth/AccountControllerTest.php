@@ -4,6 +4,7 @@ namespace Tests\Feature\Http\Controllers\Api\Auth;
 
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\UserAddress;
 use App\Models\UserDetail;
 use App\Models\UserSocialMediaAccount;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -18,6 +19,7 @@ class AccountControllerTest extends TestCase
     public function user_can_update_account_details()
     {
         $user = User::factory()
+            ->has(UserAddress::factory(), 'address')
             ->has(UserDetail::factory(), 'details')
             ->has(UserSocialMediaAccount::factory()->count(3), 'socialMediaAccounts')
             ->create();
@@ -45,6 +47,7 @@ class AccountControllerTest extends TestCase
     public function user_can_update_social_media_accounts()
     {
         $user = User::factory()
+            ->has(UserAddress::factory(), 'address')
             ->has(UserDetail::factory(), 'details')
             ->has(UserSocialMediaAccount::factory(), 'socialMediaAccounts')
             ->create();
