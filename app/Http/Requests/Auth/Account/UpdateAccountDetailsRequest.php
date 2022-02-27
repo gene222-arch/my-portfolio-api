@@ -14,7 +14,15 @@ class UpdateAccountDetailsRequest extends BaseRequest
     public function rules()
     {
         return [
-            'phone_number' => ['required', 'string']
+            'name' => ['required', 'string'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string', 'min:8'],
+            'phone_number' => ['required', 'string'],
+            'address' => ['required', 'string'],
+            'city' => ['required', 'string'],
+            'state' => ['required', 'string'],
+            'zip_code' => ['required', 'numeric'],
+            'country' => ['required', 'string'],
         ];
     }
 }

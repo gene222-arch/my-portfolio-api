@@ -6,21 +6,34 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\Account\UpdateAccountDetailsRequest;
 use App\Http\Requests\Auth\Account\UpdateSocialMediaAccountRequest;
+use App\Services\UserService;
 
 class AccountController extends Controller
 {
     /**
      * @param  \App\Http\Requests\Auth\Account\UpdateAccountDetailsRequest  $request
      * @param  \App\Models\User  $user
+     * @param  \App\Services\UserService  $service
      * 
      * @return  \Illuminate\Http\JsonResponse
      */
-    public function updateDetails(UpdateAccountDetailsRequest $request, User $user)
+    public function updateDetails(UpdateAccountDetailsRequest $request, User $user, UserService $service)
     {
-        $isUpdated = $user->details()->update($request->validated());
+        $result = $service->updateDetails(
+            $user,
+            $request->name,
+            $request->email,
+            $request->password,
+            $request->phone_number,
+            $request->address,
+            $request->city,
+            $request->state,
+            $request->zip_code,
+            $request->country
+        );
 
-        return !$isUpdated
-            ? $this->error($isUpdated)
+        return gettype($result) === 'string'
+            ? $this->error($result)
             : $this->success('Account details updated successfully.');
     }
 
