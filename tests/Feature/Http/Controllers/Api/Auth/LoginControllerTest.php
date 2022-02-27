@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http\Controllers\Api\Auth;
 
 use App\Models\User;
+use App\Models\UserAddress;
 use App\Models\UserDetail;
 use App\Models\UserSocialMediaAccount;
 use Tests\TestCase;
@@ -15,6 +16,7 @@ class LoginControllerTest extends TestCase
     public function user_can_login()
     {
         $user = User::factory()
+            ->has(UserAddress::factory(), 'address')
             ->has(UserDetail::factory(), 'details')
             ->has(UserSocialMediaAccount::factory()->count(3), 'socialMediaAccounts')
             ->create();
@@ -46,6 +48,7 @@ class LoginControllerTest extends TestCase
     public function user_can_log_out()
     {
         $user = User::factory()
+            ->has(UserAddress::factory(), 'address')
             ->has(UserDetail::factory(), 'details')
             ->has(UserSocialMediaAccount::factory()->count(3), 'socialMediaAccounts')
             ->create();
