@@ -18,7 +18,6 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class)->constrained();
             $table->string('phone_number')->unique();
-            $table->string('address');
         });
     }
 

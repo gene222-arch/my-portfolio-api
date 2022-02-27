@@ -17,8 +17,7 @@ class UserDetailFactory extends Factory
     public function definition()
     {
         return [
-            'phone_number' => $this->faker->unique()->phoneNumber(),
-            'address' => $this->faker->address()
+            'phone_number' => $this->faker->unique()->phoneNumber()
         ];
     }
 }
