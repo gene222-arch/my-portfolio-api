@@ -10,6 +10,25 @@ use App\Services\UserService;
 
 class AccountController extends Controller
 {
+
+    /**
+     * @param  \App\Models\User  $user
+     * 
+     * @return  \Illuminate\Http\JsonResponse
+     */
+    public function show(User $user)
+    {
+        $relations = [
+            'address',
+            'details',
+            'socialMediaAccounts'
+        ];
+
+        $user = User::with($relations)->find($user->id);
+
+        return $this->success('OK', $user);
+    }
+
     /**
      * @param  \App\Http\Requests\Auth\Account\UpdateAccountDetailsRequest  $request
      * @param  \App\Models\User  $user
