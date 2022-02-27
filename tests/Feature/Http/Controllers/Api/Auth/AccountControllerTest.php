@@ -27,7 +27,15 @@ class AccountControllerTest extends TestCase
         $this->actingAs(User::find($user->id), 'api');
 
         $data = [
-            'phone_number' => $this->faker()->unique()->phoneNumber()
+            'name' => $this->faker()->name(),
+            'email' => $this->faker()->unique()->safeEmail(),
+            'password' => 'password',
+            'phone_number' => $this->faker()->unique()->phoneNumber(),
+            'address' => $this->faker()->address(),
+            'city' => $this->faker()->city(),
+            'state' => $this->faker()->city(),
+            'zip_code' => $this->faker()->randomNumber(5),
+            'country' => $this->faker()->country()
         ];
 
         $response = $this->put("/api/account/details/{$user->id}", $data);
