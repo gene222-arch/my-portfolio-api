@@ -88,7 +88,29 @@ class AccountControllerTest extends TestCase
 
         $response->assertSuccessful();
         $response->assertJsonStructure([
-            'data',
+            'data' => [
+                'id',
+                'name',
+                'address' => [
+                    'address',
+                    'city',
+                    'state',
+                    'zip_code',
+                    'country'
+                ],
+                'details' => [
+                    'phone_number'
+                ],
+                'social_media_accounts' => [
+                    [
+                        'id',
+                        'user_id',
+                        'name',
+                        'email',
+                        'url'
+                    ]
+                ]
+            ],
             'message',
             'status',
             'status_message'
