@@ -53,7 +53,7 @@ class AccountController extends Controller
 
         return gettype($result) === 'string'
             ? $this->error($result)
-            : $this->success('Account details updated successfully.');
+            : $this->success('Account details updated successfully.', $result);
     }
 
     /**

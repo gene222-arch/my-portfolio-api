@@ -18,10 +18,10 @@ class UserService
         string $state,
         int $zipCode,
         string $country
-    ): bool|string
+    ): User|string
     {
         try {
-            DB::transaction(function () use (
+            $user = DB::transaction(function () use (
                 $user,
                 $name,
                 $email,
@@ -51,11 +51,21 @@ class UserService
                     'zip_code' => $zipCode,
                     'country' => $country
                 ]);
+
+                $relations = [
+                    'address',
+                    'details',
+                    'socialMediaAccounts'
+                ];
+        
+                $user = User::with($relations)->find($user->id);
+
+                return $user;
             });
         } catch (\Throwable $th) {
             return $th->getMessage();
         }
 
-        return true;
+        return $user;
     }
 }
