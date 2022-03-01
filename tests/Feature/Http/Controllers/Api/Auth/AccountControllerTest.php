@@ -75,7 +75,6 @@ class AccountControllerTest extends TestCase
         $data = [
             'name' => $this->faker()->name(),
             'email' => $this->faker()->unique()->safeEmail(),
-            'password' => 'password',
             'phone_number' => $this->faker()->unique()->phoneNumber(),
             'address' => $this->faker()->address(),
             'city' => $this->faker()->city(),
