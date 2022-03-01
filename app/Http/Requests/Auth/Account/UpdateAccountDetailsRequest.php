@@ -16,7 +16,6 @@ class UpdateAccountDetailsRequest extends BaseRequest
         return [
             'name' => ['required', 'string'],
             'email' => ['required', 'email'],
-            'password' => ['required', 'string', 'min:8'],
             'phone_number' => ['required', 'string'],
             'address' => ['required', 'string'],
             'city' => ['required', 'string'],

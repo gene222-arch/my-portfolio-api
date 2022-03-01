@@ -11,7 +11,6 @@ class UserService
         User $user,
         string $name,
         string $email,
-        string $password,
         string $phoneNumber,
         string $address,
         string $city,
@@ -25,7 +24,6 @@ class UserService
                 $user,
                 $name,
                 $email,
-                $password,
                 $phoneNumber,
                 $address,
                 $city,
@@ -36,8 +34,7 @@ class UserService
             {
                 $user->update([
                     'name' => $name,
-                    'email' => $email,
-                    'password' => Hash::make($password),
+                    'email' => $email
                 ]);
 
                 $user->details()->update([

@@ -42,7 +42,6 @@ class AccountController extends Controller
             $user,
             $request->name,
             $request->email,
-            $request->password,
             $request->phone_number,
             $request->address,
             $request->city,
