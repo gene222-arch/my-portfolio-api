@@ -32,9 +32,9 @@ Route::prefix('page-report')->group(function ()
 {
     Route::controller(PageReportsController::class)->group(function () 
     {
-        Route::post('/likes', 'incrementLikes');
-        Route::post('/views', 'incrementViews');
-        Route::post('/sent-mails', 'incrementSentMails');
+        Route::put('/likes', 'incrementLikes');
+        Route::put('/views', 'incrementViews');
+        Route::put('/sent-mails', 'incrementSentMails');
     });
 });
 

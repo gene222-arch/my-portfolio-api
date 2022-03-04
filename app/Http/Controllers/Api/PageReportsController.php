@@ -7,7 +7,7 @@ use App\Models\PageReport;
 
 class PageReportsController extends Controller
 {
-    public function incrementLike()
+    public function incrementLikes()
     {
         PageReport::first()
             ->increment('likes');
@@ -23,7 +23,7 @@ class PageReportsController extends Controller
         return $this->success();
     }
 
-    public function incrementEmailSent()
+    public function incrementSentMails()
     {
         PageReport::first()
             ->increment('views');
