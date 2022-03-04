@@ -7,6 +7,11 @@ use App\Models\PageReport;
 
 class PageReportsController extends Controller
 {
+    public function show()
+    {
+        return $this->success('OK', PageReport::first());
+    }
+
     public function incrementLikes()
     {
         PageReport::first()
