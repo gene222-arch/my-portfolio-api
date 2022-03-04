@@ -36,6 +36,7 @@ Route::prefix('page-report')->group(function ()
         Route::put('/likes', 'incrementLikes');
         Route::put('/views', 'incrementViews');
         Route::put('/sent-mails', 'incrementSentMails');
+        Route::put('/projects', 'incrementProjects');
     });
 });
 
