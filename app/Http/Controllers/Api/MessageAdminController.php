@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MessageAdminRequest;
 use App\Mail\MessageAdmin;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class MessageAdminController extends Controller
