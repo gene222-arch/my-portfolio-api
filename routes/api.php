@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\AccountController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\MessageAdminController;
+use App\Http\Controllers\Api\PageReportsController;
 use App\Http\Controllers\Api\ProjectsController;
 use App\Http\Controllers\Api\TestimonialsController;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,16 @@ Route::prefix('auth')->group(function ()
     {
         Route::post('login', 'login');
         Route::post('logout', 'logout');
+    });
+});
+
+Route::prefix('page-report')->group(function ()
+{
+    Route::controller(PageReportsController::class)->group(function () 
+    {
+        Route::post('/likes', 'incrementLikes');
+        Route::post('/views', 'incrementViews');
+        Route::post('/sent-mails', 'incrementSentMails');
     });
 });
 
