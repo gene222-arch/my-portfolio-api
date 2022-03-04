@@ -19,7 +19,8 @@ class PageReportFactory extends Factory
         return [
             'views' => $this->faker->randomDigit(),
             'sent_mails' => $this->faker->randomDigit(),
-            'likes' => $this->faker->randomDigit()
+            'likes' => $this->faker->randomDigit(),
+            'projects' => $this->faker->randomDigit()
         ];
     }
 }
