@@ -50,4 +50,14 @@ class PageReportsControllerTest extends TestCase
 
         $response->assertSuccessful();
     }
+
+    /**
+     * test
+     */
+    public function projects_can_be_incremented()
+    {
+        $response = $this->put('/api/page-report/projects');
+
+        $response->assertSuccessful();
+    }
 }

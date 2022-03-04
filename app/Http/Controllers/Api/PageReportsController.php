@@ -35,4 +35,12 @@ class PageReportsController extends Controller
 
         return $this->success();
     }
+
+    public function incrementProjects()
+    {
+        PageReport::first()
+            ->increment('projects');
+
+        return $this->success();
+    }
 }

@@ -12,7 +12,8 @@ class PageReport extends Model
     protected $fillable = [
         'views',
         'sent_mails',
-        'likes'
+        'likes',
+        'projects'
     ];
 
     public $timestamps = false;
