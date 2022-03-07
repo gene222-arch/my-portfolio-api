@@ -1,17 +1,18 @@
 <?php 
 namespace App\Services;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class FileUploadService 
 {
-    public function upload(string $key, string $directory = ''): string
+    public function upload(Request $request, string $key, string $directory = ''): string
     {
         $path = '';
         
-        if (request()->hasFile($key))
+        if ($request->hasFile($key))
         {
-            $file = request()->file($key);
+            $file = $request->file($key);
 
             $originalFilename = $file->getClientOriginalName();
             $extension = $file->getClientOriginalExtension();

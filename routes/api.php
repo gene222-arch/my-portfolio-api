@@ -59,6 +59,7 @@ Route::middleware(['auth:api'])->group(function ()
             Route::get('/', 'index');
             Route::get('/{project}', 'show');
             Route::post('/', 'store');
+            Route::post('/upload-primary-image', 'uploadPrimaryImage');
             Route::put('/{project}', 'update');
             Route::delete('/', 'destroy');
         });

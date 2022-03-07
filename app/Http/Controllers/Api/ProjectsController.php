@@ -6,9 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Project\DestroyRequest;
 use App\Http\Requests\Project\StoreRequest;
 use App\Http\Requests\Project\UpdateRequest;
+use App\Http\Requests\Project\UploadPrimaryImageRequest;
 use App\Models\Project;
+use App\Services\FileUploadService;
 use App\Services\ProjectService;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProjectsController extends Controller
@@ -50,6 +51,13 @@ class ProjectsController extends Controller
                 $result,
                 Response::HTTP_CREATED
             );
+    }
+
+    public function uploadPrimaryImage(UploadPrimaryImageRequest $request, FileUploadService $service)
+    {
+        $url = $service->upload($request, 'image');
+
+        return $this->success('OK', $url);
     }
 
     /**
