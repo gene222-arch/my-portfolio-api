@@ -15,4 +15,9 @@ class Testimonial extends Model
         'profession',
         'rate'
     ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 }
