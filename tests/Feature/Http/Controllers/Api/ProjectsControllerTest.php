@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Models\ProjectSubImage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
 class ProjectsControllerTest extends TestCase
@@ -157,6 +158,29 @@ class ProjectsControllerTest extends TestCase
         $response->assertSuccessful();
         $response->assertJsonStructure([
             'data' ,
+            'message',
+            'status',
+            'status_message'
+        ]);
+    }
+
+    /**
+     * test
+     */
+    public function user_can_upload_image()
+    {
+        $image = UploadedFile::fake()->image('image.jpg');
+        $data = [
+            'image' => $image
+        ];
+
+        $response = $this->post('/api/projects/upload-primary-image', $data);
+
+        $response->assertSuccessful();
+        $response->assertJsonStructure([
+            'data' => [
+                'url'
+            ],
             'message',
             'status',
             'status_message'

@@ -57,7 +57,9 @@ class ProjectsController extends Controller
     {
         $url = $service->upload($request, 'image');
 
-        return $this->success('OK', $url);
+        return $this->success('OK', [
+            'url' => $url
+        ]);
     }
 
     /**
