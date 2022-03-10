@@ -72,6 +72,7 @@ Route::middleware(['auth:api'])->group(function ()
             Route::get('/', 'index');
             Route::get('/{testimonial}', 'show');
             Route::post('/', 'store');
+            Route::post('/upload-avatar', 'uploadAvatar');
             Route::put('/{testimonial}', 'update');
             Route::delete('/', 'destroy');
         });

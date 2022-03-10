@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Testimonial\DestroyRequest;
 use App\Http\Requests\Testimonial\StoreUpdateRequest;
+use App\Http\Requests\Testimonial\UploadAvatarRequest;
 use App\Models\Testimonial;
+use App\Services\FileUploadService;
 use Symfony\Component\HttpFoundation\Response;
 
 class TestimonialsController extends Controller
@@ -47,6 +49,17 @@ class TestimonialsController extends Controller
     public function show(Testimonial $testimonial)
     {
         return $this->success('OK', $testimonial);
+    }
+
+    public function uploadAvatar(UploadAvatarRequest $request, FileUploadService $service)
+    {
+        $url = $service->upload($request, 'avatar', 'avatars/');
+
+        return $this->success(
+            'Uploaded', 
+            [ 'url' => $url ], 
+            Response::HTTP_CREATED
+        );
     }
 
     /**
