@@ -28,11 +28,10 @@ class TestimonialsControllerTest extends TestCase
                 [
                     'id',
                     'name',
+                    'avatar_url',
                     'body',
                     'profession',
-                    'rate',
-                    'created_at',
-                    'updated_at'
+                    'rate'
                 ]
             ],
             'message',
@@ -55,11 +54,10 @@ class TestimonialsControllerTest extends TestCase
             'data' => [
                 'id',
                 'name',
+                'avatar_url',
                 'body',
                 'profession',
-                'rate',
-                'created_at',
-                'updated_at'
+                'rate'
             ],
             'message',
             'status',
@@ -74,6 +72,7 @@ class TestimonialsControllerTest extends TestCase
     {
         $data = [
             'name' => $this->faker()->name() . time(),
+            'avatar_url' => $this->faker()->imageUrl(),
             'body' => $this->faker()->sentence(),
             'profession' => $this->faker()->jobTitle(),
             'rate' => rand(0, 5)
@@ -86,11 +85,10 @@ class TestimonialsControllerTest extends TestCase
             'data' => [
                 'id',
                 'name',
+                'avatar_url',
                 'body',
                 'profession',
-                'rate',
-                'created_at',
-                'updated_at'
+                'rate'
             ],
             'message',
             'status',
@@ -107,6 +105,7 @@ class TestimonialsControllerTest extends TestCase
 
         $data = [
             'name' => $this->faker()->name() . time(),
+            'avatar_url' => $this->faker()->imageUrl(),
             'body' => $this->faker()->sentence(),
             'profession' => $this->faker()->jobTitle(),
             'rate' => rand(0, 5)
