@@ -53,7 +53,7 @@ class TestimonialsController extends Controller
 
     public function uploadAvatar(UploadAvatarRequest $request, FileUploadService $service)
     {
-        $url = $service->upload($request, 'avatar', 'avatars/');
+        $url = $service->upload($request, 'avatar', 'avatars');
 
         return $this->success(
             'Uploaded', 

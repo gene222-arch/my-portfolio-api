@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Storage;
 
 class FileUploadService 
 {
-    public function upload(Request $request, string $key, string $directory = 'images/'): string
+    public function upload(Request $request, string $key, string $directory = 'images'): string
     {
         $path = '';
         
@@ -18,9 +18,10 @@ class FileUploadService
             $extension = $file->getClientOriginalExtension();
             $fileName = pathinfo($originalFilename, PATHINFO_FILENAME);
 
-            $path = $directory . $fileName .'-'. time() . ".${extension}";
-            
-            Storage::disk('s3')->put($directory, $file);
+            $newFileName = $fileName .'-'. time() . ".${extension}";
+            $path = $directory . $newFileName;
+
+            $path = $file->storeAs($directory, $newFileName, 's3');
         }
 
         return Storage::disk('s3')->url($path);
