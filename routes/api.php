@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\MessageAdminController;
 use App\Http\Controllers\Api\PageReportsController;
 use App\Http\Controllers\Api\ProjectsController;
 use App\Http\Controllers\Api\TestimonialsController;
+use App\Http\Controllers\EmailsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,6 +50,21 @@ Route::middleware(['auth:api'])->group(function ()
             Route::get('/{user}', 'show');
             Route::put('/details/{user}', 'updateDetails');
             Route::put('/social-media/{user}', 'updateSocialMediaAccount');
+        });
+    });
+
+    Route::group([
+        'prefix' => 'emails',
+        'as' => 'emails.'
+    ], function ()
+    {
+        Route::controller(EmailsController::class)->group(function ()
+        {
+            Route::get('/', 'index')->name('index');
+            Route::delete('/{email}', 'destroy')->name('destroy');
+            Route::put('{email}/restore', 'restore')
+                ->name('restore')
+                ->withTrashed();
         });
     });
 
