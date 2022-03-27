@@ -5,6 +5,7 @@ namespace Tests\Feature\Http\Controllers\Api;
 use App\Models\Testimonial;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
 class TestimonialsControllerTest extends TestCase
@@ -28,11 +29,10 @@ class TestimonialsControllerTest extends TestCase
                 [
                     'id',
                     'name',
+                    'avatar_url',
                     'body',
                     'profession',
-                    'rate',
-                    'created_at',
-                    'updated_at'
+                    'rate'
                 ]
             ],
             'message',
@@ -55,11 +55,10 @@ class TestimonialsControllerTest extends TestCase
             'data' => [
                 'id',
                 'name',
+                'avatar_url',
                 'body',
                 'profession',
-                'rate',
-                'created_at',
-                'updated_at'
+                'rate'
             ],
             'message',
             'status',
@@ -74,6 +73,7 @@ class TestimonialsControllerTest extends TestCase
     {
         $data = [
             'name' => $this->faker()->name() . time(),
+            'avatar_url' => $this->faker()->imageUrl(),
             'body' => $this->faker()->sentence(),
             'profession' => $this->faker()->jobTitle(),
             'rate' => rand(0, 5)
@@ -86,11 +86,32 @@ class TestimonialsControllerTest extends TestCase
             'data' => [
                 'id',
                 'name',
+                'avatar_url',
                 'body',
                 'profession',
-                'rate',
-                'created_at',
-                'updated_at'
+                'rate'
+            ],
+            'message',
+            'status',
+            'status_message'
+        ]);
+    }
+
+    /**
+     * test
+     */
+    public function user_can_upload_an_avatar()
+    {
+        $avatar = UploadedFile::fake()->image('image.jpg');
+
+        $response = $this->post('/api/testimonials/upload-avatar', [
+            'avatar' => $avatar
+        ]);
+
+        $response->assertCreated();
+        $response->assertJsonStructure([
+            'data' => [
+               'url'
             ],
             'message',
             'status',
@@ -107,6 +128,7 @@ class TestimonialsControllerTest extends TestCase
 
         $data = [
             'name' => $this->faker()->name() . time(),
+            'avatar_url' => $this->faker()->imageUrl(),
             'body' => $this->faker()->sentence(),
             'profession' => $this->faker()->jobTitle(),
             'rate' => rand(0, 5)

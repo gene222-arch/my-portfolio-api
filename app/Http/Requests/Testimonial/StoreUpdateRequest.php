@@ -15,6 +15,7 @@ class StoreUpdateRequest extends BaseRequest
     {
         return [
             'name' => ['required', 'string'],
+            'avatar_url' => ['required', 'url'],
             'body' => ['required', 'string'],
             'profession' => ['required', 'string'],
             'rate' => ['required', 'numeric']

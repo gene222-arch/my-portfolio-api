@@ -11,8 +11,14 @@ class Testimonial extends Model
 
     protected $fillable = [
         'name',
+        'avatar_url',
         'body',
         'profession',
         'rate'
+    ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
     ];
 }

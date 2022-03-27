@@ -18,6 +18,7 @@ class TestimonialFactory extends Factory
     {
         return [
             'name' => $this->faker->unique()->name('Male'),
+            'avatar_url' => $this->faker->imageUrl(),
             'body' => $this->faker->sentence(),
             'profession' => $this->faker->unique()->jobTitle(),
             'rate' => rand(0, 5)
