@@ -21,7 +21,7 @@ class TestimonialsController extends Controller
     {
         return $this->success(
             'OK',
-            Testimonial::all()
+            Testimonial::orderByDesc('created_at')->get()
         );
     }
 

@@ -21,7 +21,7 @@ class ProjectsController extends Controller
      */
     public function index()
     {
-        $projects = Project::with('images')->get();
+        $projects = Project::with('images')->orderByDesc('created_at')->get();
 
         return $this->success('OK', $projects);
     }
