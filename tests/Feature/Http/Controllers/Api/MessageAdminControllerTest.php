@@ -23,6 +23,7 @@ class MessageAdminControllerTest extends TestCase
 
         $response = $this->post('/api/mail-admin', $data);
 
+        $this->assertDatabaseHas('emails', $data);
         $response->assertSuccessful();
         $response->assertJsonStructure([
             'data',
