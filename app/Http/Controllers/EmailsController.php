@@ -10,7 +10,7 @@ class EmailsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -29,7 +29,7 @@ class EmailsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Email  $email
-     * @return \\Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Email $email)
     {
@@ -42,7 +42,7 @@ class EmailsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Email  $email
-     * @return \\Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function restore(Email $email)
     {
