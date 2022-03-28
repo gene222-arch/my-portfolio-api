@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Project\DestroyRequest;
 use App\Http\Requests\Project\StoreRequest;
 use App\Http\Requests\Project\UpdateRequest;
-use App\Http\Requests\Project\UploadPrimaryImageRequest;
+use App\Http\Requests\Project\UploadImageRequest;
 use App\Models\Project;
 use App\Services\FileUploadService;
 use App\Services\ProjectService;
@@ -53,7 +53,7 @@ class ProjectsController extends Controller
             );
     }
 
-    public function uploadPrimaryImage(UploadPrimaryImageRequest $request, FileUploadService $service)
+    public function uploadImage(UploadImageRequest $request, FileUploadService $service)
     {
         $url = $service->upload($request, 'image');
 
