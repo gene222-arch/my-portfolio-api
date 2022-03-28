@@ -8,7 +8,7 @@ class ProjectService
 {
     public function create(
         string $imageUrl,
-        string $websiteUrl,
+        ?string $websiteUrl,
         string $title,
         string $description,
         ?string $clientFeedback = null,
@@ -41,7 +41,7 @@ class ProjectService
 
     public function update(
         Project $project,
-        string $websiteUrl,
+        ?string $websiteUrl,
         string $imageUrl,
         string $title,
         string $description,
