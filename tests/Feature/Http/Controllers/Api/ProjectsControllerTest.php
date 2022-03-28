@@ -174,7 +174,7 @@ class ProjectsControllerTest extends TestCase
             'image' => $image
         ];
 
-        $response = $this->post('/api/projects/upload-primary-image', $data);
+        $response = $this->post('/api/projects/image-upload', $data);
 
         $response->assertSuccessful();
         $response->assertJsonStructure([
