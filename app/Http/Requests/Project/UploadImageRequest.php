@@ -4,7 +4,7 @@ namespace App\Http\Requests\Project;
 
 use App\Http\Requests\BaseRequest;
 
-class UploadPrimaryImageRequest extends BaseRequest
+class UploadImageRequest extends BaseRequest
 {
     /**
      * Get the validation rules that apply to the request.
