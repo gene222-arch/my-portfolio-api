@@ -85,8 +85,8 @@ class ProjectsController extends Controller
     {
         $result = $service->update(
             $project,
-            $request->image_url,
             $request->websiteUrl,
+            $request->image_url,
             $request->title,
             $request->description,
             $request->client_feedback,
