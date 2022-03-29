@@ -19,7 +19,7 @@ class UserSocialMediaAccountsController extends Controller
      */
     public function index()
     {
-        return $this->success('OK', UserSocialMediaAccount::orderByDesc('created_at')->get());
+        return $this->success('OK', UserSocialMediaAccount::get());
     }
 
     /**
@@ -30,7 +30,10 @@ class UserSocialMediaAccountsController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        UserSocialMediaAccount::create($request->validated());
+        $request
+            ->user('api')
+            ->socialMediaAccounts()
+            ->create($request->validated());
 
         return $this->success('Social Media Account created successfully.', null, Response::HTTP_CREATED);
     }
