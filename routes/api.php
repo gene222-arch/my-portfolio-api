@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\MessageAdminController;
 use App\Http\Controllers\Api\PageReportsController;
 use App\Http\Controllers\Api\ProjectsController;
 use App\Http\Controllers\Api\TestimonialsController;
+use App\Http\Controllers\Api\UserSocialMediaAccountsController;
 use App\Http\Controllers\EmailsController;
 use Illuminate\Support\Facades\Route;
 
@@ -90,6 +91,17 @@ Route::middleware(['auth:api'])->group(function ()
             Route::post('/', 'store');
             Route::post('/upload-avatar', 'uploadAvatar');
             Route::put('/{testimonial}', 'update');
+            Route::delete('/', 'destroy');
+        });
+    });
+
+    Route::prefix('social-media-accounts')->group(function ()
+    {
+        Route::controller(UserSocialMediaAccountsController::class)->group(function ()
+        {
+            Route::get('/', 'index');
+            Route::post('/', 'store');
+            Route::put('/{socialMediaAccount}', 'update');
             Route::delete('/', 'destroy');
         });
     });
