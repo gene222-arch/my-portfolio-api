@@ -44,7 +44,11 @@ class EmailsControllerTest extends TestCase
         $email = Email::factory()->create();
         $emailID = $email->id;
 
-        $response = $this->delete("/api/emails/{$emailID}");
+        $response = $this->delete("/api/emails", [
+            'ids' => [
+                $emailID
+            ]
+        ]);
         $email = Email::withTrashed()->find($emailID);
         
         $response->assertSuccessful();
