@@ -71,7 +71,7 @@ Route::middleware(['auth:api'])->group(function ()
     {
         Route::controller(ProjectsController::class)->group(function ()
         {
-            Route::get('/', 'index');
+            Route::get('/', 'index')->withoutMiddleware('auth:api');
             Route::get('/{project}', 'show');
             Route::post('/', 'store');
             Route::post('/image-upload', 'uploadImage');
@@ -84,7 +84,7 @@ Route::middleware(['auth:api'])->group(function ()
     {
         Route::controller(TestimonialsController::class)->group(function ()
         {
-            Route::get('/', 'index');
+            Route::get('/', 'index')->withoutMiddleware('auth:api');;
             Route::get('/{testimonial}', 'show');
             Route::post('/', 'store');
             Route::post('/upload-avatar', 'uploadAvatar');
