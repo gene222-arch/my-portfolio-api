@@ -63,9 +63,7 @@ Route::middleware(['auth:api'])->group(function ()
         {
             Route::get('/', 'index')->name('index');
             Route::delete('/', 'destroy')->name('destroy');
-            Route::put('{email}/restore', 'restore')
-                ->name('restore')
-                ->withTrashed();
+            Route::put('restore', 'restore')->name('restore');
         });
     });
 
