@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Email\DestroyRequest;
 use App\Models\Email;
 use Illuminate\Http\Request;
 
@@ -26,14 +27,14 @@ class EmailsController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the multiple resource from storage.
      *
-     * @param  \App\Models\Email  $email
+     * @param  \App\Http\Requests\Email\DestroyRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Email $email)
+    public function destroy(DestroyRequest $request)
     {
-        $email->delete();
+        Email::whereIn('id', $request->ids)->delete();
 
         return $this->success('OK');
     }
