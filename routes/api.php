@@ -62,10 +62,8 @@ Route::middleware(['auth:api'])->group(function ()
         Route::controller(EmailsController::class)->group(function ()
         {
             Route::get('/', 'index')->name('index');
-            Route::delete('/{email}', 'destroy')->name('destroy');
-            Route::put('{email}/restore', 'restore')
-                ->name('restore')
-                ->withTrashed();
+            Route::delete('/', 'destroy')->name('destroy');
+            Route::put('restore', 'restore')->name('restore');
         });
     });
 
