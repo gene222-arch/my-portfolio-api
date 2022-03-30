@@ -17,7 +17,7 @@ class EmailsController extends Controller
     {
         $emailQuery = Email::query();
 
-        if (request()->has('archives')) {
+        if (request()->has('archives') && request()->input('archives') == true) {
             $emailQuery = $emailQuery->onlyTrashed();
         }
 
