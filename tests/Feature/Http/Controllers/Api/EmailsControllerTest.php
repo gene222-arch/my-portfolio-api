@@ -70,7 +70,11 @@ class EmailsControllerTest extends TestCase
         $emailID = $email->id;
         $email->delete();
 
-        $response = $this->put("/api/emails/{$emailID}/restore");
+        $response = $this->put("/api/emails/restore", [
+            'ids' => [
+                $emailID
+            ]
+        ]);
         $email = Email::find($emailID);
 
         $response->assertSuccessful();
