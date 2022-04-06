@@ -31,7 +31,7 @@ class PageReportsController extends Controller
     public function incrementSentMails()
     {
         PageReport::first()
-            ->increment('views');
+            ->increment('sent_mails');
 
         return $this->success();
     }
