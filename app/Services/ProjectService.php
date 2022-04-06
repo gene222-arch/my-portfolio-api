@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 
 class ProjectService
 {
-    public function create(
+    public static function create(
         string $imageUrl,
         ?string $websiteUrl,
         string $title,
@@ -39,7 +39,7 @@ class ProjectService
         return $project;
     }
 
-    public function update(
+    public static function update(
         Project $project,
         ?string $websiteUrl,
         string $imageUrl,
@@ -72,7 +72,7 @@ class ProjectService
         return true;
     }
 
-    public function destroy(array $projectIDs): bool|string
+    public static function destroy(array $projectIDs): bool|string
     {
         try {
             DB::transaction(function () use ($projectIDs)

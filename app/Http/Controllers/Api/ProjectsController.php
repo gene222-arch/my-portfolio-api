@@ -30,12 +30,11 @@ class ProjectsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\Project\StoreRequest  $request
-     * @param  \App\Services\ProjectService  $service
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreRequest $request, ProjectService $service)
+    public function store(StoreRequest $request)
     {
-        $result = $service->create(
+        $result = ProjectService::create(
             $request->image_url,
             $request->website_url,
             $request->title,
@@ -78,12 +77,11 @@ class ProjectsController extends Controller
      *
      * @param  \App\Http\Requests\Project\UpdateRequest  $request
      * @param  \App\Models\Project  $project
-     * @param  \App\Services\ProjectService  $service
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateRequest $request, Project $project, ProjectService $service)
+    public function update(UpdateRequest $request, Project $project)
     {
-        $result = $service->update(
+        $result = ProjectService::update(
             $project,
             $request->websiteUrl,
             $request->image_url,
@@ -102,12 +100,11 @@ class ProjectsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Http\Requests\Project\DestroyRequest  $request
-     * @param  \App\Services\ProjectService  $service
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(DestroyRequest $request, ProjectService $service)
+    public function destroy(DestroyRequest $request)
     {
-        $result = $service->destroy($request->project_ids);
+        $result = ProjectService::destroy($request->project_ids);
 
         return gettype($result) === 'string'
             ? $this->error($result)
