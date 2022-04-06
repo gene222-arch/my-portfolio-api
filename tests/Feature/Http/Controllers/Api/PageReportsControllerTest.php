@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers\Api;
 
+use App\Models\PageReport;
 use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -26,8 +27,13 @@ class PageReportsControllerTest extends TestCase
      */
     public function guest_user_can_add_likes()
     {
+        $pageReportOld = PageReport::first();
+
         $response = $this->put('/api/page-report/likes');
 
+        $pageReportUpdated = PageReport::first();
+
+        $this->assertEquals($pageReportUpdated->likes, $pageReportOld->likes + 1);
         $response->assertSuccessful();
     }
 
@@ -36,8 +42,12 @@ class PageReportsControllerTest extends TestCase
      */
     public function views_can_be_incremented()
     {
+        $pageReportOld = PageReport::first();
         $response = $this->put('/api/page-report/views');
 
+        $pageReportUpdated = PageReport::first();
+
+        $this->assertEquals($pageReportUpdated->views, $pageReportOld->views + 1);
         $response->assertSuccessful();
     }
 
@@ -46,8 +56,12 @@ class PageReportsControllerTest extends TestCase
      */
     public function sent_emails_can_be_incremented()
     {
+        $pageReportOld = PageReport::first();
         $response = $this->put('/api/page-report/sent-mails');
 
+        $pageReportUpdated = PageReport::first();
+
+        $this->assertEquals($pageReportUpdated->sent_mails, $pageReportOld->sent_mails + 1);
         $response->assertSuccessful();
     }
 
