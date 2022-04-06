@@ -34,7 +34,7 @@ Route::prefix('page-report')->group(function ()
 {
     Route::controller(PageReportsController::class)->group(function () 
     {
-        Route::get('/', 'show')->middleware('auth:api');
+        Route::get('/', 'show');
         Route::put('/likes', 'incrementLikes');
         Route::put('/views', 'incrementViews');
         Route::put('/sent-mails', 'incrementSentMails');
