@@ -70,8 +70,13 @@ class PageReportsControllerTest extends TestCase
      */
     public function projects_can_be_incremented()
     {
+        $pageReportOld = PageReport::first();
+
         $response = $this->put('/api/page-report/projects');
 
+        $pageReportUpdated = PageReport::first();
+
+        $this->assertEquals($pageReportUpdated->projects, $pageReportOld->projects + 1);
         $response->assertSuccessful();
     }
 }
