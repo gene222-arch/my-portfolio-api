@@ -27,7 +27,7 @@ class MessageAdminController extends Controller
                 );
 
                 Email::create($request->validated());
-                PageReport::query()->increment('emails_sent');
+                PageReport::first()->increment('emails_sent');
             });
         } catch (\Throwable $th) {
             return $this->error($th->getMessage());
