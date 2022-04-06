@@ -23,7 +23,7 @@ class PageReportsControllerTest extends TestCase
     }
 
     /**
-     * @test
+     * test
      */
     public function guest_user_can_add_likes()
     {
@@ -42,8 +42,12 @@ class PageReportsControllerTest extends TestCase
      */
     public function views_can_be_incremented()
     {
+        $pageReport = PageReport::first();
         $response = $this->put('/api/page-report/views');
 
+        $pageReportUpdated = PageReport::first();
+
+        $this->assertEquals($pageReportUpdated->views, $pageReport->views + 1);
         $response->assertSuccessful();
     }
 
