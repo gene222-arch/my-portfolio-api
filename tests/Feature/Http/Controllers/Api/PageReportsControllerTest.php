@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers\Api;
 
+use App\Models\PageReport;
 use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -22,12 +23,17 @@ class PageReportsControllerTest extends TestCase
     }
 
     /**
-     * test
+     * @test
      */
     public function guest_user_can_add_likes()
     {
+        $pageReport = PageReport::first();
+
         $response = $this->put('/api/page-report/likes');
 
+        $pageReportUpdated = PageReport::first();
+
+        $this->assertEquals($pageReportUpdated->likes, $pageReport->likes + 1);
         $response->assertSuccessful();
     }
 
