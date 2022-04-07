@@ -15,9 +15,9 @@ class PageReportsControllerTest extends TestCase
      */
     public function user_can_view_page_report()
     {
-        PageReport::factory()->create();
+        $pageReport = PageReport::factory()->create();
 
-        $response = $this->get('/api/page-report');
+        $response = $this->get('/api/page-report/' . $pageReport->id);
         
         $response->assertSuccessful();
         $response->assertJsonStructure([
