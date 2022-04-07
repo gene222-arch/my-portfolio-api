@@ -14,9 +14,9 @@ class PageReportsController extends Controller
         $this->pageReport = PageReport::first();
     }
 
-    public function show()
+    public function show(PageReport $pageReport)
     {
-        return $this->success('OK', $this->pageReport);
+        return $this->success('OK', $pageReport);
     }
 
     public function incrementLikes()

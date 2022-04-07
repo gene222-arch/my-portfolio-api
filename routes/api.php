@@ -34,7 +34,7 @@ Route::prefix('page-report')->group(function ()
 {
     Route::controller(PageReportsController::class)->group(function () 
     {
-        Route::get('/', 'show');
+        Route::get('/{pageReport}', 'show');
         Route::put('/likes', 'incrementLikes');
         Route::put('/views', 'incrementViews');
     });
