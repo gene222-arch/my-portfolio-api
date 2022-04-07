@@ -37,6 +37,7 @@ class MessageAdmin extends Mailable
     public function build()
     {
         return $this->from($this->email, $this->name)
+            ->to(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
             ->subject('Message from Portfolio')
             ->markdown('mails.message-admin');
     }

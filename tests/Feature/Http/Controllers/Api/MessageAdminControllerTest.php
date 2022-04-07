@@ -10,6 +10,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class MessageAdminControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * test
      */
@@ -21,7 +23,7 @@ class MessageAdminControllerTest extends TestCase
             'name' => 'Gene Phillip D. Artista'
         ];
 
-        $response = $this->post('/api/mail-admin', $data);
+        $response = $this->post('/api/mail-admin', $data);  
 
         $this->assertDatabaseHas('emails', $data);
         $response->assertSuccessful();
