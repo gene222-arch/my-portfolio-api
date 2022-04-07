@@ -39,13 +39,13 @@ class PageReportsControllerTest extends TestCase
      */
     public function guest_user_can_add_likes()
     {
-        $pageReportOld = PageReport::first();
+        $pageReport = PageReport::factory()->create();
 
-        $response = $this->put('/api/page-report/likes');
+        $response = $this->put('/api/page-report/likes/' . $pageReport->id);
 
-        $pageReportUpdated = PageReport::first();
+        $pageReportUpdated = PageReport::find($pageReport->id);
 
-        $this->assertEquals($pageReportUpdated->likes, $pageReportOld->likes + 1);
+        $this->assertEquals($pageReportUpdated->likes, $pageReport->likes + 1);
         $response->assertSuccessful();
         $response->assertJsonStructure([
             'data' => [
@@ -66,12 +66,12 @@ class PageReportsControllerTest extends TestCase
      */
     public function views_can_be_incremented()
     {
-        $pageReportOld = PageReport::first();
-        $response = $this->put('/api/page-report/views');
+        $pageReport = PageReport::factory()->create();
+        $response = $this->put('/api/page-report/views/' . $pageReport->id);
 
-        $pageReportUpdated = PageReport::first();
+        $pageReportUpdated = PageReport::find($pageReport->id);
 
-        $this->assertEquals($pageReportUpdated->views, $pageReportOld->views + 1);
+        $this->assertEquals($pageReportUpdated->views, $pageReport->views + 1);
         $response->assertSuccessful();
         $response->assertJsonStructure([
             'data' => [
