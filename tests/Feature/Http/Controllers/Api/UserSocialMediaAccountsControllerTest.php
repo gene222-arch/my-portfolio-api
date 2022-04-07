@@ -11,6 +11,7 @@ use Tests\TestCase;
 class UserSocialMediaAccountsControllerTest extends TestCase
 {
     use WithFaker;
+    use RefreshDatabase;
 
     /**
      * test
@@ -21,23 +22,22 @@ class UserSocialMediaAccountsControllerTest extends TestCase
             ->has(UserSocialMediaAccount::factory()->count(5), 'socialMediaAccounts')
             ->create();
 
-        $response = $this->get('/api/social-media-accounts');
-
-        $response->assertSuccessful();
-        $response->assertJsonStructure([
-            'data' => [
-                [
-                    'id',
-                    'user_id',
-                    'name',
-                    'email',
-                    'url'
-                ]
-            ],
-            'message',
-            'status',
-            'status_message'
-        ]);
+        $this->get('/api/social-media-accounts')
+            ->assertSuccessful()
+            ->assertJsonStructure([
+                'data' => [
+                    [
+                        'id',
+                        'user_id',
+                        'name',
+                        'email',
+                        'url'
+                    ]
+                ],
+                'message',
+                'status',
+                'status_message'
+            ]);
     }
 
      /**
@@ -51,16 +51,16 @@ class UserSocialMediaAccountsControllerTest extends TestCase
             'url' => $this->faker()->url()
         ];
 
-        $response = $this->post('/api/social-media-accounts', $data);
+        $this->post('/api/social-media-accounts', $data)
+            ->assertCreated()
+            ->assertJsonStructure([
+                'data',
+                'message',
+                'status',
+                'status_message'
+            ]);
 
-        $response->assertCreated();
         $this->assertDatabaseHas('user_social_media_accounts', $data);
-        $response->assertJsonStructure([
-            'data',
-            'message',
-            'status',
-            'status_message'
-        ]);
     }
 
    /**
@@ -81,15 +81,14 @@ class UserSocialMediaAccountsControllerTest extends TestCase
             'url' => $this->faker()->url()
         ];
 
-        $response = $this->put("/api/social-media-accounts/{$socialMediaAccountID}", $data);
-
-        $response->assertSuccessful();
-        $response->assertJsonStructure([
-            'data',
-            'message',
-            'status',
-            'status_message'
-        ]);
+        $this->put("/api/social-media-accounts/{$socialMediaAccountID}", $data)
+            ->assertSuccessful()
+            ->assertJsonStructure([
+                'data',
+                'message',
+                'status',
+                'status_message'
+            ]);
     }
 
    /**
@@ -101,18 +100,26 @@ class UserSocialMediaAccountsControllerTest extends TestCase
             ->has(UserSocialMediaAccount::factory()->count(5), 'socialMediaAccounts')
             ->create();
 
+        $socialMediaAccounts = $user
+            ->socialMediaAccounts
+            ->map(
+                fn ($socMed) => $socMed->only('id')
+            )
+            ->toArray();
+
         $data = [
             'ids' => $user->socialMediaAccounts->map->id->toArray()
         ];
 
-        $response = $this->delete('/api/social-media-accounts', $data);
+        $this->delete('/api/social-media-accounts', $data)
+            ->assertSuccessful()
+            ->assertJsonStructure([
+                'data',
+                'message',
+                'status',
+                'status_message'
+            ]);
 
-        $response->assertSuccessful();
-        $response->assertJsonStructure([
-            'data',
-            'message',
-            'status',
-            'status_message'
-        ]);
+        $this->assertDatabaseMissing(UserSocialMediaAccount::class, $socialMediaAccounts);
     }
 }
