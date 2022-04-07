@@ -7,11 +7,13 @@ use App\Models\User;
 use App\Models\UserAddress;
 use App\Models\UserDetail;
 use App\Models\UserSocialMediaAccount;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 
 class AccountControllerTest extends TestCase
 {
     use WithFaker;
+    use RefreshDatabase;
 
     /**
      * test
@@ -26,41 +28,40 @@ class AccountControllerTest extends TestCase
 
         $this->actingAs(User::find($user->id), 'api');
 
-        $response = $this->get("/api/account/{$user->id}");
-
-        $response->assertSuccessful();
-        $response->assertJsonStructure([
-            'data' => [
-                'id',
-                'name',
-                'address' => [
-                    'address',
-                    'city',
-                    'state',
-                    'zip_code',
-                    'country'
-                ],
-                'details' => [
-                    'phone_number'
-                ],
-                'social_media_accounts' => [
-                    [
-                        'id',
-                        'user_id',
-                        'name',
-                        'email',
-                        'url'
+        $this->get("/api/account/{$user->id}")
+            ->assertSuccessful()
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'name',
+                    'address' => [
+                        'address',
+                        'city',
+                        'state',
+                        'zip_code',
+                        'country'
+                    ],
+                    'details' => [
+                        'phone_number'
+                    ],
+                    'social_media_accounts' => [
+                        [
+                            'id',
+                            'user_id',
+                            'name',
+                            'email',
+                            'url'
+                        ]
                     ]
-                ]
-            ],
-            'message',
-            'status',
-            'status_message'
-        ]);
+                ],
+                'message',
+                'status',
+                'status_message'
+            ]);
     }
 
     /**
-     * test
+     * @test
      */
     public function user_can_update_account_details()
     {
@@ -83,37 +84,36 @@ class AccountControllerTest extends TestCase
             'country' => $this->faker()->country()
         ];
 
-        $response = $this->put("/api/account/details/{$user->id}", $data);
-
-        $response->assertSuccessful();
-        $response->assertJsonStructure([
-            'data' => [
-                'id',
-                'name',
-                'address' => [
-                    'address',
-                    'city',
-                    'state',
-                    'zip_code',
-                    'country'
-                ],
-                'details' => [
-                    'phone_number'
-                ],
-                'social_media_accounts' => [
-                    [
-                        'id',
-                        'user_id',
-                        'name',
-                        'email',
-                        'url'
+        $this->put("/api/account/details/{$user->id}", $data)
+            ->assertSuccessful()
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'name',
+                    'address' => [
+                        'address',
+                        'city',
+                        'state',
+                        'zip_code',
+                        'country'
+                    ],
+                    'details' => [
+                        'phone_number'
+                    ],
+                    'social_media_accounts' => [
+                        [
+                            'id',
+                            'user_id',
+                            'name',
+                            'email',
+                            'url'
+                        ]
                     ]
-                ]
-            ],
-            'message',
-            'status',
-            'status_message'
-        ]);
+                ],
+                'message',
+                'status',
+                'status_message'
+            ]);
     }
 
     /**
