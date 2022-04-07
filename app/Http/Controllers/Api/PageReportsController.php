@@ -7,29 +7,22 @@ use App\Models\PageReport;
 
 class PageReportsController extends Controller
 {
-    private PageReport $pageReport;
-
-    public function __construct()
-    {
-        $this->pageReport = PageReport::first();
-    }
-
     public function show(PageReport $pageReport)
     {
         return $this->success('OK', $pageReport);
     }
 
-    public function incrementLikes()
+    public function incrementLikes(PageReport $pageReport)
     {
-        $this->pageReport->increment('likes');
+        $pageReport->increment('likes');
 
-        return $this->success('Like incremented successfully.', $this->pageReport);
+        return $this->success('Like incremented successfully.', $pageReport);
     }
 
-    public function incrementViews()
+    public function incrementViews(PageReport $pageReport)
     {
-        $this->pageReport->increment('views');
+        $pageReport->increment('views');
 
-        return $this->success('Views incremented successfully.', $this->pageReport);
+        return $this->success('Views incremented successfully.', $pageReport);
     }
 }
