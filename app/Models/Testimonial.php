@@ -21,4 +21,13 @@ class Testimonial extends Model
         'created_at',
         'updated_at'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        self::created(function ($testimonial) {
+            PageReport::first()->increment('testimonials');
+        });
+    }
 }
