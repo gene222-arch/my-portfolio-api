@@ -6,11 +6,13 @@ use App\Models\Testimonial;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class TestimonialsControllerTest extends TestCase
 {
     use WithFaker;
+    use RefreshDatabase;
 
     /**
      * test
@@ -21,24 +23,23 @@ class TestimonialsControllerTest extends TestCase
             ->count(5)
             ->create();
 
-        $response = $this->get('/api/testimonials');
-
-        $response->assertSuccessful();
-        $response->assertJsonStructure([
-            'data' => [
-                [
-                    'id',
-                    'name',
-                    'avatar_url',
-                    'body',
-                    'profession',
-                    'rate'
-                ]
-            ],
-            'message',
-            'status',
-            'status_message'
-        ]);
+        $this->get('/api/testimonials')
+            ->assertSuccessful()
+            ->assertJsonStructure([
+                'data' => [
+                    [
+                        'id',
+                        'name',
+                        'avatar_url',
+                        'body',
+                        'profession',
+                        'rate'
+                    ]
+                ],
+                'message',
+                'status',
+                'status_message'
+            ]);
     }
 
      /**
@@ -48,22 +49,21 @@ class TestimonialsControllerTest extends TestCase
     {
         $testimonial = Testimonial::factory()->create();
 
-        $response = $this->get("/api/testimonials/{$testimonial->id}");
-
-        $response->assertSuccessful();
-        $response->assertJsonStructure([
-            'data' => [
-                'id',
-                'name',
-                'avatar_url',
-                'body',
-                'profession',
-                'rate'
-            ],
-            'message',
-            'status',
-            'status_message'
-        ]);
+        $this->get("/api/testimonials/{$testimonial->id}")
+            ->assertSuccessful()
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'name',
+                    'avatar_url',
+                    'body',
+                    'profession',
+                    'rate'
+                ],
+                'message',
+                'status',
+                'status_message'
+            ]);
     }
 
      /**
@@ -79,22 +79,21 @@ class TestimonialsControllerTest extends TestCase
             'rate' => rand(0, 5)
         ];
 
-        $response = $this->post('/api/testimonials', $data);
-
-        $response->assertCreated();
-        $response->assertJsonStructure([
-            'data' => [
-                'id',
-                'name',
-                'avatar_url',
-                'body',
-                'profession',
-                'rate'
-            ],
-            'message',
-            'status',
-            'status_message'
-        ]);
+        $this->post('/api/testimonials', $data)
+            ->assertCreated()
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'name',
+                    'avatar_url',
+                    'body',
+                    'profession',
+                    'rate'
+                ],
+                'message',
+                'status',
+                'status_message'
+            ]);
     }
 
     /**
@@ -102,21 +101,24 @@ class TestimonialsControllerTest extends TestCase
      */
     public function user_can_upload_an_avatar()
     {
-        $avatar = UploadedFile::fake()->image('image.jpg');
+        Storage::fake('s3');
+        $avatar = UploadedFile::fake()->image('avatarsssssss.jpg');
 
         $response = $this->post('/api/testimonials/upload-avatar', [
             'avatar' => $avatar
-        ]);
+        ])
+            ->assertCreated()
+            ->assertJsonStructure([
+                'data' => [
+                    'url'
+                ],
+                'message',
+                'status',
+                'status_message'
+            ]);
 
-        $response->assertCreated();
-        $response->assertJsonStructure([
-            'data' => [
-               'url'
-            ],
-            'message',
-            'status',
-            'status_message'
-        ]);
+        $path = str($response['data']['url'])->replace('/storage', '');
+        Storage::disk('s3')->assertExists($path);
     }
 
    /**

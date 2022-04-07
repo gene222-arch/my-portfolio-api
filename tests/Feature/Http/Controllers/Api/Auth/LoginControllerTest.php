@@ -2,14 +2,17 @@
 
 namespace Tests\Feature\Http\Controllers\Api\Auth;
 
-use App\Models\User;
-use App\Models\UserAddress;
-use App\Models\UserDetail;
-use App\Models\UserSocialMediaAccount;
 use Tests\TestCase;
+use App\Models\User;
+use App\Models\UserDetail;
+use App\Models\UserAddress;
+use App\Models\UserSocialMediaAccount;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LoginControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * test
      */
@@ -27,19 +30,20 @@ class LoginControllerTest extends TestCase
             'remember_me' => false
         ];
 
-        $response = $this->post('/api/auth/login', $data);
+        $this->post('/api/auth/login', $data)
+            ->assertSuccessful()
+            ->assertJsonStructure([
+                'data' => [
+                    'access_token',
+                    'token_type',
+                    'expired_at'
+                ],
+                'message',
+                'status',
+                'status_message'
+            ]);
 
-        $response->assertSuccessful();
-        $response->assertJsonStructure([
-            'data' => [
-                'access_token',
-                'token_type',
-                'expired_at'
-            ],
-            'message',
-            'status',
-            'status_message'
-        ]);
+        $this->assertAuthenticated();
     }
 
     /**
@@ -52,7 +56,6 @@ class LoginControllerTest extends TestCase
             ->has(UserDetail::factory(), 'details')
             ->has(UserSocialMediaAccount::factory()->count(3), 'socialMediaAccounts')
             ->create();
-        $user = User::find($user->id);
 
         $data = [
             'email' => $user->email,
@@ -61,18 +64,18 @@ class LoginControllerTest extends TestCase
         ];
 
         #Login
-        $loginResponse = $this->post('/api/auth/login', $data);
-        $loginResponse->assertSuccessful();
-        $loginResponse->assertJsonStructure([
-            'data' => [
-                'access_token',
-                'token_type',
-                'expired_at'
-            ],
-            'message',
-            'status',
-            'status_message'
-        ]);
+        $loginResponse = $this->post('/api/auth/login', $data)
+            ->assertSuccessful()
+            ->assertJsonStructure([
+                'data' => [
+                    'access_token',
+                    'token_type',
+                    'expired_at'
+                ],
+                'message',
+                'status',
+                'status_message'
+            ]);
 
         $accessToken = $loginResponse->json()['data']['access_token'];
         $headers = [
@@ -80,13 +83,13 @@ class LoginControllerTest extends TestCase
         ];
 
         #Logout
-        $logoutResponse = $this->post('/api/auth/logout', [], $headers);
-        $logoutResponse->assertSuccessful();
-        $logoutResponse->assertJsonStructure([
-            'data',
-            'message',
-            'status',
-            'status_message'
-        ]);
+        $this->post('/api/auth/logout', [], $headers)
+            ->assertSuccessful()
+            ->assertJsonStructure([
+                'data',
+                'message',
+                'status',
+                'status_message'
+            ]);
     }
 }

@@ -17,6 +17,8 @@ class MessageAdminControllerTest extends TestCase
      */
     public function user_can_send_mail()
     {
+        Mail::fake();
+
         $data = [
             'email' => 'genephillip222@gmail.com',
             'message' => 'Heyheyhey',

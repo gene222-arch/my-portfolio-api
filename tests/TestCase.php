@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Artisan;
 use Laravel\Passport\Passport;
+use Tests\Feature\Http\Controllers\Api\Auth\LoginControllerTest;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -16,7 +17,14 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         Artisan::call('db:seed');
-        Passport::actingAs(User::factory()->create(), [], 'api');
+    
+        if (! str(get_class($this))->is(LoginControllerTest::class)) {
+            Passport::actingAs(User::factory()->create(), [], 'api');
+        }
+        else {
+            Artisan::call('passport:install');
+        }
+
         $this->withoutExceptionHandling();
     }
 }

@@ -9,6 +9,8 @@ use Tests\TestCase;
 
 class EmailsControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * test
      */
@@ -16,24 +18,23 @@ class EmailsControllerTest extends TestCase
     {
         Email::factory()->count(3)->create();
 
-        $response = $this->get('/api/emails');
-
-        $response->assertSuccessful();
-        $response->assertJsonStructure([
-            'data' => [
-                [
-                    'id',
-                    'name',
-                    'email',
-                    'message',
-                    'updated_at',
-                    'created_at',
-                ]
-            ],
-            'message',
-            'status',
-            'status_message'
-        ]);
+        $this->get('/api/emails')
+            ->assertSuccessful()
+            ->assertJsonStructure([
+                'data' => [
+                    [
+                        'id',
+                        'name',
+                        'email',
+                        'message',
+                        'updated_at',
+                        'created_at',
+                    ]
+                ],
+                'message',
+                'status',
+                'status_message'
+            ]);
     }
 
     /**
@@ -43,21 +44,24 @@ class EmailsControllerTest extends TestCase
     {
         $email = Email::factory()->create();
         $emailID = $email->id;
-
-        $response = $this->delete("/api/emails", [
+        
+        $data = [
             'ids' => [
                 $emailID
             ]
-        ]);
-        $email = Email::withTrashed()->find($emailID);
-        
-        $response->assertSuccessful();
-        $this->assertNotNull($email->deleted_at);
-        $response->assertJsonStructure([
-            'data',
-            'message',
-            'status',
-            'status_message'
+        ];
+
+        $this->delete("/api/emails", $data)
+            ->assertSuccessful()
+            ->assertJsonStructure([
+                'data',
+                'message',
+                'status',
+                'status_message'
+            ]);
+
+        $this->assertSoftDeleted('emails', [
+            'id' => $emailID
         ]);
     }
 
@@ -70,20 +74,23 @@ class EmailsControllerTest extends TestCase
         $emailID = $email->id;
         $email->delete();
 
-        $response = $this->put("/api/emails/restore", [
+        $data = [
             'ids' => [
                 $emailID
             ]
-        ]);
-        $email = Email::find($emailID);
+        ];
 
-        $response->assertSuccessful();
-        $this->assertNull($email->deleted_at);
-        $response->assertJsonStructure([
-            'data',
-            'message',
-            'status',
-            'status_message'
+        $this->put("/api/emails/restore", $data)
+            ->assertSuccessful()
+            ->assertJsonStructure([
+                'data',
+                'message',
+                'status',
+                'status_message'
+            ]);
+
+        $this->assertNotSoftDeleted('emails', [
+            'id' => $emailID
         ]);
     }
 }
