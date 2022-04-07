@@ -157,9 +157,9 @@ class TestimonialsControllerTest extends TestCase
      */
     public function user_can_destroy_testimonial_or_testimonials()
     {
-        $pageReportOld = PageReport::first();
         $testimonialOne = Testimonial::factory()->create();
         $testimonialTwo = Testimonial::factory()->create();
+        $pageReportOld = PageReport::first();
 
         $ids = [
             $testimonialOne->id,
