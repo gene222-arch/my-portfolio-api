@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Seeder;
+use Database\Seeders\UserSeeder;
+use Database\Seeders\PageReportSeeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,10 +16,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory()->create([
-            'email' => 'genephillip222@gmail.com',
-            'name' => 'Gene Phillip D. Artista',
-            'password' => Hash::make('genephillip222@gmail.com')
-        ]); 
+        $this->call([
+            PageReportSeeder::class,
+            UserSeeder::class
+        ]);
     }
 }
