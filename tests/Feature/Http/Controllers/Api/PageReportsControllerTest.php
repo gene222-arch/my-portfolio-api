@@ -15,11 +15,24 @@ class PageReportsControllerTest extends TestCase
      */
     public function user_can_view_page_report()
     {
+        PageReport::factory()->create();
         $this->actingAs(User::find(1), 'api');
 
         $response = $this->get('/api/page-report');
         
         $response->assertSuccessful();
+        $response->assertJsonStructure([
+            'data' => [
+                'id',
+                'views',
+                'sent_mails',
+                'likes',
+                'projects'
+            ],
+            'message',
+            'status',
+            'status_message'
+        ]);
     }
 
     /**
@@ -35,6 +48,18 @@ class PageReportsControllerTest extends TestCase
 
         $this->assertEquals($pageReportUpdated->likes, $pageReportOld->likes + 1);
         $response->assertSuccessful();
+        $response->assertJsonStructure([
+            'data' => [
+                'id',
+                'views',
+                'sent_mails',
+                'likes',
+                'projects'
+            ],
+            'message',
+            'status',
+            'status_message'
+        ]);
     }
 
     /**
@@ -49,34 +74,17 @@ class PageReportsControllerTest extends TestCase
 
         $this->assertEquals($pageReportUpdated->views, $pageReportOld->views + 1);
         $response->assertSuccessful();
-    }
-
-    /**
-     * test
-     */
-    public function sent_emails_can_be_incremented()
-    {
-        $pageReportOld = PageReport::first();
-        $response = $this->put('/api/page-report/sent-mails');
-
-        $pageReportUpdated = PageReport::first();
-
-        $this->assertEquals($pageReportUpdated->sent_mails, $pageReportOld->sent_mails + 1);
-        $response->assertSuccessful();
-    }
-
-    /**
-     * test
-     */
-    public function projects_can_be_incremented()
-    {
-        $pageReportOld = PageReport::first();
-
-        $response = $this->put('/api/page-report/projects');
-
-        $pageReportUpdated = PageReport::first();
-
-        $this->assertEquals($pageReportUpdated->projects, $pageReportOld->projects + 1);
-        $response->assertSuccessful();
+        $response->assertJsonStructure([
+            'data' => [
+                'id',
+                'views',
+                'sent_mails',
+                'likes',
+                'projects'
+            ],
+            'message',
+            'status',
+            'status_message'
+        ]);
     }
 }
