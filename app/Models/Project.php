@@ -24,7 +24,7 @@ class Project extends Model
         parent::boot();
 
         self::created(function ($project) {
-            PageReport::first()->increment('project');
+            PageReport::first()->increment('projects');
         });
     }
 
