@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers\Api;
 
+use App\Models\PageReport;
 use App\Models\Testimonial;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -71,6 +72,8 @@ class TestimonialsControllerTest extends TestCase
      */
     public function user_can_create_testimonial()
     {
+        $pageReportOld = PageReport::first();
+
         $data = [
             'name' => $this->faker()->name() . time(),
             'avatar_url' => $this->faker()->imageUrl(),
@@ -94,6 +97,8 @@ class TestimonialsControllerTest extends TestCase
                 'status',
                 'status_message'
             ]);
+
+        $this->assertEquals(PageReport::first()->testimonials, ($pageReportOld->testimonials + 1));
     }
 
     /**
@@ -154,12 +159,15 @@ class TestimonialsControllerTest extends TestCase
     {
         $testimonialOne = Testimonial::factory()->create();
         $testimonialTwo = Testimonial::factory()->create();
+        $pageReportOld = PageReport::first();
+
+        $ids = [
+            $testimonialOne->id,
+            $testimonialTwo->id
+        ];
 
         $data = [
-            'testimonial_ids' => [
-                $testimonialOne->id,
-                $testimonialTwo->id
-            ]
+            'testimonial_ids' => $ids
         ];
 
         $response = $this->delete('/api/testimonials', $data);
@@ -171,5 +179,7 @@ class TestimonialsControllerTest extends TestCase
             'status',
             'status_message'
         ]);
+
+        $this->assertEquals(PageReport::first()->testimonials, ($pageReportOld->testimonials - count($ids)));
     }
 }
