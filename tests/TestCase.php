@@ -17,10 +17,11 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         Artisan::call('db:seed');
-
-        if (! $this === LoginControllerTest::class) {
+    
+        if (! str(get_class($this))->is(LoginControllerTest::class)) {
             Passport::actingAs(User::factory()->create(), [], 'api');
-        } else {
+        }
+        else {
             Artisan::call('passport:install');
         }
 
