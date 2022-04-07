@@ -4,6 +4,7 @@ namespace Tests;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Laravel\Passport\Passport;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -12,8 +13,8 @@ abstract class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
-        $this->actingAs(User::find(1), 'api');
+
+        Passport::actingAs(User::factory()->create(), [], 'api');
         $this->withoutExceptionHandling();
     }
 }

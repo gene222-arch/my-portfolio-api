@@ -9,14 +9,13 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PageReportsControllerTest extends TestCase
-{
+{   
     /**
      * test
      */
     public function user_can_view_page_report()
     {
         PageReport::factory()->create();
-        $this->actingAs(User::find(1), 'api');
 
         $response = $this->get('/api/page-report');
         
