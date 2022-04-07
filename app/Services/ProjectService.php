@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use App\Models\PageReport;
 use App\Models\Project;
 use Illuminate\Support\Facades\DB;
 
@@ -87,6 +88,8 @@ class ProjectService
                     ->delete();
                     
                 $projects->map->delete();
+
+                PageReport::first()->decrement('projects', count(($projectIDs)));
             });
         } catch (\Throwable $th) {
             return $th->getMessage();

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers\Api;
 
+use App\Models\PageReport;
 use App\Models\Project;
 use App\Models\ProjectSubImage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -92,6 +93,8 @@ class ProjectsControllerTest extends TestCase
      */
     public function user_can_create_project()
     {
+        $pageReportOld = PageReport::first();
+
         $data = [
             'image_url' => $this->faker()->image(),
             'website_url' => $this->faker()->url(),
@@ -128,6 +131,10 @@ class ProjectsControllerTest extends TestCase
                 'status',
                 'status_message'
             ]);
+
+        $pageReportUpdated = PageReport::first();
+
+        $this->assertEquals($pageReportUpdated->projects, ($pageReportOld->projects + 1));
     }
 
     /**
@@ -201,11 +208,15 @@ class ProjectsControllerTest extends TestCase
             ->has(ProjectSubImage::factory(), 'images')
             ->create();
 
+        $pageReportOld = PageReport::first();
+
+        $ids = [
+            $projectOne->id,
+            $projectTwo->id
+        ];
+
         $data = [
-            'project_ids' => [
-                $projectOne->id,
-                $projectTwo->id
-            ]
+            'project_ids' => $ids
         ];
 
         $this->delete('/api/projects', $data)
@@ -216,6 +227,8 @@ class ProjectsControllerTest extends TestCase
                 'status',
                 'status_message'
             ]);
+        
+        $pageReportUpdated = PageReport::first();
 
         $this->assertDatabaseMissing(Project::class, [
             [
@@ -225,5 +238,6 @@ class ProjectsControllerTest extends TestCase
                 'id' => $projectTwo->id
             ]
         ]);
+        $this->assertEquals($pageReportUpdated->projects, ($pageReportOld->projects - count($ids)));
     }
 }

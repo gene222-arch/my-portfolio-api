@@ -19,6 +19,15 @@ class Project extends Model
         'client_feedback'
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        self::created(function ($project) {
+            PageReport::first()->increment('projects');
+        });
+    }
+
     public function images(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(ProjectSubImage::class);
