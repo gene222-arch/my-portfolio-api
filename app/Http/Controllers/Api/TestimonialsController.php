@@ -8,6 +8,7 @@ use App\Http\Requests\Testimonial\StoreUpdateRequest;
 use App\Http\Requests\Testimonial\UploadAvatarRequest;
 use App\Models\Testimonial;
 use App\Services\FileUploadService;
+use App\Services\TestimonialService;
 use Symfony\Component\HttpFoundation\Response;
 
 class TestimonialsController extends Controller
@@ -81,12 +82,15 @@ class TestimonialsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Http\Requests\Testimonial\DestroyRequest  $request
+     * @param  \App\Services\TestimonialService  $service
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(DestroyRequest $request)
+    public function destroy(DestroyRequest $request, TestimonialService $service)
     {
-        Testimonial::whereIn('id', $request->testimonial_ids)->delete();
+        $result = $service->deleteMultiple($request->testimonial_ids);
 
-        return $this->success('Testimonial/s deleted successfully.');
+        return gettype($result) === 'string'
+            ? $this->error($result)
+            : $this->success('Testimonial/s deleted successfully.');
     }
 }
