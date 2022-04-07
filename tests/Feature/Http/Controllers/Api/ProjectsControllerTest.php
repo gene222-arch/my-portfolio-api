@@ -167,6 +167,7 @@ class ProjectsControllerTest extends TestCase
      */
     public function user_can_upload_image()
     {
+        Storage::fake('s3');
         $image = UploadedFile::fake()->image('HEYHEYHEY.jpg');
         $data = [
             'image' => $image
@@ -183,7 +184,8 @@ class ProjectsControllerTest extends TestCase
                 'status_message'
             ]);
 
-        Storage::disk('s3')->exists($response['data']['url']);
+        $s3FilePath = str($response['data']['url'])->replace('storage/', '');
+        Storage::disk('s3')->assertExists($s3FilePath);
     }
 
     /**
