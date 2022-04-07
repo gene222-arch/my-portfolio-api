@@ -18,6 +18,8 @@ return new class extends Migration
             $table->bigInteger('views')->default(0);
             $table->bigInteger('sent_mails')->default(0);
             $table->bigInteger('likes')->default(0);
+            $table->bigInteger('projects')->default(0);
+            $table->bigInteger('testimonials')->default(0);
         });
     }
 
