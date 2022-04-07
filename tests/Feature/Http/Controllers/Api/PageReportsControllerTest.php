@@ -10,8 +10,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PageReportsControllerTest extends TestCase
 {   
+    use RefreshDatabase;
+
     /**
-     * test
+     * @test
      */
     public function user_can_view_page_report()
     {
@@ -35,7 +37,7 @@ class PageReportsControllerTest extends TestCase
     }
 
     /**
-     * test
+     * @test
      */
     public function guest_user_can_add_likes()
     {
@@ -62,7 +64,7 @@ class PageReportsControllerTest extends TestCase
     }
 
     /**
-     * test
+     * @test
      */
     public function views_can_be_incremented()
     {

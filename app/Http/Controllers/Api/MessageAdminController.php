@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\MessageAdminRequest;
+use App\Models\User;
 
 class MessageAdminController extends Controller
 {
@@ -17,17 +18,17 @@ class MessageAdminController extends Controller
         try {
             DB::transaction(function () use ($request) 
             {
-                Mail::to(env('MAIL_FROM_ADDRESS'))
-                ->send(
-                    new MessageAdmin(
-                        $request->email,
-                        $request->message,
-                        $request->name
-                    )
-                );
+                Mail::to(User::first())
+                    ->send(
+                        new MessageAdmin(
+                            $request->email,
+                            $request->message,
+                            $request->name
+                        )
+                    );
 
                 Email::create($request->validated());
-                PageReport::first()->increment('emails_sent');
+                PageReport::firstOrCreate()->increment('sent_mails');
             });
         } catch (\Throwable $th) {
             return $this->error($th->getMessage());
