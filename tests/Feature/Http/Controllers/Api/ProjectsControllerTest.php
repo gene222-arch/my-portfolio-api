@@ -7,11 +7,13 @@ use App\Models\ProjectSubImage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class ProjectsControllerTest extends TestCase
 {
     use WithFaker;
+    use RefreshDatabase;
 
     /**
      * test
@@ -22,12 +24,47 @@ class ProjectsControllerTest extends TestCase
             ->has(ProjectSubImage::factory()->count(3), 'images')
             ->create();
 
-        $response = $this->get('/api/projects');
+        $this->get('/api/projects')
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'data' => [
+                    [
+                        'id',
+                        'title',
+                        'description',
+                        'image_url',
+                        'website_url',
+                        'client_feedback',
+                        'updated_at',
+                        'created_at',
+                        'images' => [
+                            [
+                                'id',
+                                'project_id',
+                                'image_url'
+                            ]
+                        ]
+                    ]
+                ],
+                'message',
+                'status',
+                'status_message'
+            ]);
+    }
 
-        $response->assertStatus(200);
-        $response->assertJsonStructure([
-            'data' => [
-                [
+    /**
+     * test
+     */
+    public function user_can_get_project()
+    {
+        $project = Project::factory()
+            ->has(ProjectSubImage::factory(), 'images')
+            ->create();
+
+        $this->get("/api/projects/{$project->id}")
+            ->assertSuccessful()
+            ->assertJsonStructure([
+                'data' => [
                     'id',
                     'title',
                     'description',
@@ -43,48 +80,11 @@ class ProjectsControllerTest extends TestCase
                             'image_url'
                         ]
                     ]
-                ]
-            ],
-            'message',
-            'status',
-            'status_message'
-        ]);
-    }
-
-    /**
-     * test
-     */
-    public function user_can_get_project()
-    {
-        $project = Project::factory()
-            ->has(ProjectSubImage::factory(), 'images')
-            ->create();
-
-        $response = $this->get("/api/projects/{$project->id}");
-
-        $response->assertSuccessful();
-        $response->assertJsonStructure([
-            'data' => [
-                'id',
-                'title',
-                'description',
-                'image_url',
-                'website_url',
-                'client_feedback',
-                'updated_at',
-                'created_at',
-                'images' => [
-                    [
-                        'id',
-                        'project_id',
-                        'image_url'
-                    ]
-                ]
-            ],
-            'message',
-            'status',
-            'status_message'
-        ]);
+                ],
+                'message',
+                'status',
+                'status_message'
+            ]);
     }
 
     /**
@@ -104,31 +104,30 @@ class ProjectsControllerTest extends TestCase
             ]
         ];
 
-        $response = $this->post('/api/projects', $data);
-
-        $response->assertCreated();
-        $response->assertJsonStructure([
-            'data' => [
-                'id',
-                'title',
-                'description',
-                'image_url',
-                'website_url',
-                'client_feedback',
-                'updated_at',
-                'created_at',
-                'images' => [
-                    [
-                        'id',
-                        'project_id',
-                        'image_url'
+        $this->post('/api/projects', $data)
+            ->assertCreated()
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'title',
+                    'description',
+                    'image_url',
+                    'website_url',
+                    'client_feedback',
+                    'updated_at',
+                    'created_at',
+                    'images' => [
+                        [
+                            'id',
+                            'project_id',
+                            'image_url'
+                        ]
                     ]
-                ]
-            ],
-            'message',
-            'status',
-            'status_message'
-        ]);
+                ],
+                'message',
+                'status',
+                'status_message'
+            ]);
     }
 
     /**
@@ -153,15 +152,14 @@ class ProjectsControllerTest extends TestCase
             ]
         ];
 
-        $response = $this->put("/api/projects/{$project->id}", $data);
-
-        $response->assertSuccessful();
-        $response->assertJsonStructure([
-            'data' ,
-            'message',
-            'status',
-            'status_message'
-        ]);
+        $this->put("/api/projects/{$project->id}", $data)
+            ->assertSuccessful()
+            ->assertJsonStructure([
+                'data' ,
+                'message',
+                'status',
+                'status_message'
+            ]);
     }
 
     /**
@@ -169,22 +167,23 @@ class ProjectsControllerTest extends TestCase
      */
     public function user_can_upload_image()
     {
-        $image = UploadedFile::fake()->image('image.jpg');
+        $image = UploadedFile::fake()->image('HEYHEYHEY.jpg');
         $data = [
             'image' => $image
         ];
 
-        $response = $this->post('/api/projects/image-upload', $data);
+        $response = $this->post('/api/projects/image-upload', $data)
+            ->assertSuccessful()
+            ->assertJsonStructure([
+                'data' => [
+                    'url'
+                ],
+                'message',
+                'status',
+                'status_message'
+            ]);
 
-        $response->assertSuccessful();
-        $response->assertJsonStructure([
-            'data' => [
-                'url'
-            ],
-            'message',
-            'status',
-            'status_message'
-        ]);
+        Storage::disk('s3')->exists($response['data']['url']);
     }
 
     /**
@@ -207,14 +206,22 @@ class ProjectsControllerTest extends TestCase
             ]
         ];
 
-        $response = $this->delete('/api/projects', $data);
+        $this->delete('/api/projects', $data)
+            ->assertSuccessful()
+            ->assertJsonStructure([
+                'data' ,
+                'message',
+                'status',
+                'status_message'
+            ]);
 
-        $response->assertSuccessful();
-        $response->assertJsonStructure([
-            'data' ,
-            'message',
-            'status',
-            'status_message'
+        $this->assertDatabaseMissing(Project::class, [
+            [
+                'id' => $projectOne->id
+            ],
+            [
+                'id' => $projectTwo->id
+            ]
         ]);
     }
 }
