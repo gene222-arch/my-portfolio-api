@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\MessageAdminRequest;
 use App\Models\User;
 
-class MessageAdminController extends Controller
+class MailAdminController extends Controller
 {
     public function mail(MessageAdminRequest $request)
     {

@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Api\Auth\AccountController;
 use App\Http\Controllers\Api\Auth\LoginController;
-use App\Http\Controllers\Api\MessageAdminController;
+use App\Http\Controllers\Api\MailAdminController;
 use App\Http\Controllers\Api\PageReportsController;
 use App\Http\Controllers\Api\ProjectsController;
 use App\Http\Controllers\Api\TestimonialsController;
@@ -103,4 +103,4 @@ Route::middleware(['auth:api'])->group(function ()
     });
 });
 
-Route::post('/mail-admin', [MessageAdminController::class, 'mail']);
+Route::post('/mail-admin', [MailAdminController::class, 'mail']);

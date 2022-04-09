@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class MessageAdminControllerTest extends TestCase
+class MailAdminControllerTest extends TestCase
 {
     use RefreshDatabase;
 
