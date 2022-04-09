@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Email;
-use App\Mail\MessageAdmin;
+use App\Mail\MailAdmin;
 use App\Models\PageReport;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -20,7 +20,7 @@ class MessageAdminController extends Controller
             {
                 Mail::to(User::first())
                     ->send(
-                        new MessageAdmin(
+                        new MailAdmin(
                             $request->email,
                             $request->message,
                             $request->name

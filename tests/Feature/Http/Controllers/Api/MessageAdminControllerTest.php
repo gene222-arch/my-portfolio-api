@@ -3,7 +3,7 @@
 namespace Tests\Feature\Http\Controllers\Api;
 
 use Tests\TestCase;
-use App\Mail\MessageAdmin;
+use App\Mail\MailAdmin;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -44,12 +44,12 @@ class MessageAdminControllerTest extends TestCase
     {
         Mail::fake();
 
-        Mail::send(new MessageAdmin(
+        Mail::send(new MailAdmin(
             'genephillip222@gmail.com',
             'Hello World!',
             'Gene Phillip'
         ));
 
-        Mail::assertSent(MessageAdmin::class);
+        Mail::assertSent(MailAdmin::class);
     }
 }
