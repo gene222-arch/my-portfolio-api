@@ -50,6 +50,6 @@ class MessageAdminControllerTest extends TestCase
             'Gene Phillip'
         ));
 
-        Mail::assertSent(MailAdmin::class);
+        Mail::assertQueued(MailAdmin::class);
     }
 }
