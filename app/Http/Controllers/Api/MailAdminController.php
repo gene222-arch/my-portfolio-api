@@ -18,17 +18,17 @@ class MailAdminController extends Controller
         try {
             DB::transaction(function () use ($request) 
             {
-                Mail::to(User::first())
-                    ->send(
-                        new MailAdmin(
-                            $request->email,
-                            $request->message,
-                            $request->name
-                        )
-                    );
-
                 Email::create($request->validated());
                 PageReport::firstOrCreate()->increment('sent_mails');
+
+                $mailable = new MailAdmin(
+                    $request->email,
+                    $request->message,
+                    $request->name
+                );
+                $mailable->afterCommit();
+
+                Mail::to(User::first())->send($mailable);
             });
         } catch (\Throwable $th) {
             return $this->error($th->getMessage());

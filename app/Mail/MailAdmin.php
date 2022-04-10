@@ -36,8 +36,7 @@ class MailAdmin extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->from($this->email, $this->name)
-            ->to(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
+        return $this->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
             ->subject('Message from Portfolio')
             ->markdown('mails.message-admin');
     }
