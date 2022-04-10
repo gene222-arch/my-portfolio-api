@@ -13,7 +13,7 @@ use App\Models\User;
 
 class MailAdminController extends Controller
 {
-    public function mail(MessageAdminRequest $request)
+    public function send(MessageAdminRequest $request)
     {
         try {
             DB::transaction(function () use ($request) 

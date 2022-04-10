@@ -103,4 +103,4 @@ Route::middleware(['auth:api'])->group(function ()
     });
 });
 
-Route::post('/mail-admin', [MailAdminController::class, 'mail']);
+Route::post('/mail-admin', [MailAdminController::class, 'send']);
