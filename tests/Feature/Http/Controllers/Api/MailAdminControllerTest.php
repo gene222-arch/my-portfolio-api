@@ -3,12 +3,12 @@
 namespace Tests\Feature\Http\Controllers\Api;
 
 use Tests\TestCase;
-use App\Mail\MessageAdmin;
+use App\Mail\MailAdmin;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class MessageAdminControllerTest extends TestCase
+class MailAdminControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -25,16 +25,16 @@ class MessageAdminControllerTest extends TestCase
             'name' => 'Gene Phillip D. Artista'
         ];
 
-        $response = $this->post('/api/mail-admin', $data);  
-
+        $this->post('/api/mail-admin', $data)
+            ->assertSuccessful()
+            ->assertJsonStructure([
+                'data',
+                'message',
+                'status',
+                'status_message'
+            ]);
+            
         $this->assertDatabaseHas('emails', $data);
-        $response->assertSuccessful();
-        $response->assertJsonStructure([
-            'data',
-            'message',
-            'status',
-            'status_message'
-        ]);
     }
 
     /**
@@ -44,12 +44,12 @@ class MessageAdminControllerTest extends TestCase
     {
         Mail::fake();
 
-        Mail::send(new MessageAdmin(
+        Mail::send(new MailAdmin(
             'genephillip222@gmail.com',
             'Hello World!',
             'Gene Phillip'
         ));
 
-        Mail::assertSent(MessageAdmin::class);
+        Mail::assertQueued(MailAdmin::class);
     }
 }

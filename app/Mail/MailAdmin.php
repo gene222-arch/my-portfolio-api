@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class MessageAdmin extends Mailable
+class MailAdmin extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -36,8 +36,7 @@ class MessageAdmin extends Mailable
      */
     public function build()
     {
-        return $this->from($this->email, $this->name)
-            ->to(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
+        return $this->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
             ->subject('Message from Portfolio')
             ->markdown('mails.message-admin');
     }
