@@ -25,16 +25,16 @@ class MailAdminControllerTest extends TestCase
             'name' => 'Gene Phillip D. Artista'
         ];
 
-        $response = $this->post('/api/mail-admin', $data);  
-
+        $this->post('/api/mail-admin', $data)
+            ->assertSuccessful()
+            ->assertJsonStructure([
+                'data',
+                'message',
+                'status',
+                'status_message'
+            ]);
+            
         $this->assertDatabaseHas('emails', $data);
-        $response->assertSuccessful();
-        $response->assertJsonStructure([
-            'data',
-            'message',
-            'status',
-            'status_message'
-        ]);
     }
 
     /**
