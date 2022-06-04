@@ -12,13 +12,18 @@ class MailAdminControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Mail::fake();
+    }
+
     /**
      * test
      */
     public function user_can_send_mail()
     {
-        Mail::fake();
-
         $data = [
             'email' => 'genephillip222@gmail.com',
             'message' => 'Heyheyhey',
@@ -42,8 +47,6 @@ class MailAdminControllerTest extends TestCase
      */
     public function mail_can_be_send()
     {
-        Mail::fake();
-
         Mail::send(new MailAdmin(
             'genephillip222@gmail.com',
             'Hello World!',
